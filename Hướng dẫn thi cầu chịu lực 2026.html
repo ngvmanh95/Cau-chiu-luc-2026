@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cẩm Nang Kỹ Sư Kết Cấu 2026 - 2027 | Trường THCS và THPT Đức Trí</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- KaTeX (Hiển thị công thức Toán - Vật lý chuẩn sư phạm) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Be Vietnam Pro"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .bg-blueprint {
+            background-color: #0f172a;
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.12) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.12) 1px, transparent 1px),
+                linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+            background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+        }
+
+        .bg-dots {
+            background-color: #f8fafc;
+            background-image: radial-gradient(#cbd5e1 1.2px, transparent 1.2px);
+            background-size: 20px 20px;
+        }
+
+        .page-slide {
+            display: none;
+            animation: fadeSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .page-slide.active {
+            display: block;
+        }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes driveCar {
+            0% { transform: translate(90px, 158px); }
+            50% { transform: translate(620px, 158px); }
+            100% { transform: translate(90px, 158px); }
+        }
+        .car-driving {
+            animation: driveCar 3.5s ease-in-out infinite;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 22px;
+            width: 22px;
+            border-radius: 50%;
+            background: #f97316;
+            cursor: pointer;
+            margin-top: -7px;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #cbd5e1;
+            border-radius: 999px;
+        }
+
+        /* Chỉnh kích thước KaTeX hài hòa với văn bản tiếng Việt */
+        .katex { font-size: 1.03em; }
+    </style>
+</head>
+<body class="font-sans bg-dots text-slate-800 min-h-screen flex flex-col justify-between selection:bg-orange-500 selection:text-white">
+
+    <!-- HEADER & THANH ĐIỀU HƯỚNG TỪNG TRANG -->
+    <header class="sticky top-0 z-50 bg-slate-950/95 backdrop-blur-md text-white border-b border-slate-800 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="flex items-center justify-between py-3">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="goToPage(1)">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-amber-400 flex items-center justify-center text-slate-950 font-black text-xl shadow">
+                        <i class="fa-solid fa-bridge"></i>
+                    </div>
+                    <div>
+                        <span class="font-extrabold tracking-tight text-sm sm:text-base block leading-none">TRƯỜNG THCS VÀ THPT ĐỨC TRÍ</span>
+                        <span class="text-[11px] text-blue-300 font-medium">Tổ Vật Lí - Công Nghệ • Giáo dục STEM 2026 - 2027</span>
+                    </div>
+                </div>
+
+                <div class="lg:hidden font-mono text-xs bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 text-orange-400 font-bold" id="mobile-page-indicator">
+                    Trang 1 / 7
+                </div>
+
+                <nav class="hidden lg:flex items-center gap-1" id="desktop-nav">
+                    <button onclick="goToPage(1)" class="nav-tab px-2.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                        <span class="w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-mono">1</span> Tổng quan
+                    </button>
+                    <button onclick="goToPage(2)" class="nav-tab px-2.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                        <span class="w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-mono">2</span> Vật liệu & Dụng cụ
+                    </button>
+                    <button onclick="goToPage(3)" class="nav-tab px-2.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                        <span class="w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-mono">3</span> Trạm Kiểm Định
+                    </button>
+                    <button onclick="goToPage(4)" class="nav-tab px-2.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                        <span class="w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-mono">4</span> Quy Tắc Chế Tạo
+                    </button>
+                    <button onclick="goToPage(5)" class="nav-tab px-2.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                        <span class="w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-mono">5</span> Kỹ Thuật Lắp Ghép
+                    </button>
+                    <button onclick="goToPage(6)" class="nav-tab px-2.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                        <span class="w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-mono">6</span> Nguyên Lý & Giải Thưởng
+                    </button>
+                    <button onclick="goToPage(7)" class="nav-tab px-2.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                        <span class="w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-mono">7</span> Bấm Giờ 60 Phút
+                    </button>
+                </nav>
+            </div>
+
+            <div class="w-full h-1 bg-slate-800 overflow-hidden">
+                <div id="top-progress-bar" class="h-full bg-gradient-to-r from-orange-500 via-amber-400 to-emerald-400 transition-all duration-300" style="width: 14.28%"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- KHU VỰC NỘI DUNG TỪNG TRANG -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
+
+        <!-- ==========================================
+             TRANG 1: TỔNG QUAN & ĐỐI TƯỢNG THAM GIA
+             ========================================== -->
+        <section id="page-1" class="page-slide active">
+            <div class="bg-blueprint text-white rounded-3xl p-6 sm:p-10 lg:p-12 shadow-2xl border-2 border-blue-800 relative overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-7 space-y-5">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-900/90 border border-blue-400/30 text-blue-200 text-xs font-bold">
+                            <span class="w-2 h-2 rounded-full bg-orange-400 animate-ping"></span>
+                            KẾ HOẠCH SỐ 191/KH-ĐT • NĂM HỌC 2026 - 2027
+                        </div>
+
+                        <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+                            CUỘC THI THIẾT KẾ <br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-300">
+                                KẾT CẤU CHỊU LỰC
+                            </span>
+                        </h1>
+
+                        <p class="text-blue-100/90 text-sm sm:text-base leading-relaxed">
+                            Sân chơi học thuật STEM giúp học sinh vận dụng kiến thức Vật lý và Công nghệ vào thực tiễn. Các đội thi sẽ trực tiếp thiết kế và chế tạo một mô hình công trình cầu bằng gỗ sao cho đạt <strong>khả năng chịu tải trọng lớn nhất</strong> và đáp ứng đầy đủ các tiêu chuẩn kỹ thuật.
+                        </p>
+
+                        <!-- 3 Thẻ thông số trọng tâm -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                            <div class="bg-slate-900/90 border border-slate-700 p-4 rounded-2xl">
+                                <div class="text-orange-400 text-xs font-bold uppercase">Quy mô đội thi</div>
+                                <div class="text-xl font-black mt-1">$\le 05$ Học sinh</div>
+                                <div class="text-xs text-slate-400 mt-0.5">Tối đa $02\text{ đội/lớp}$. Mỗi HS chỉ đăng ký $01$ đội.</div>
+                            </div>
+                            <div class="bg-slate-900/90 border border-slate-700 p-4 rounded-2xl">
+                                <div class="text-amber-400 text-xs font-bold uppercase">Thời gian chế tạo</div>
+                                <div class="text-xl font-black mt-1">$60\text{ Phút}$</div>
+                                <div class="text-xs text-slate-400 mt-0.5">Thi công trực tiếp tại sân trường.</div>
+                            </div>
+                            <div class="bg-slate-900/90 border border-slate-700 p-4 rounded-2xl">
+                                <div class="text-emerald-400 text-xs font-bold uppercase">Đăng ký dự thi</div>
+                                <div class="text-sm font-extrabold mt-1">Hạn chót: 12/10/2026</div>
+                                <div class="text-xs text-slate-400 mt-0.5">Thầy Mạnh (CS1) • Cô Dung (CS2)</div>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 flex flex-wrap gap-3">
+                            <button onclick="goToPage(2)" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-slate-950 font-black text-sm sm:text-base shadow-lg hover:brightness-110 transition flex items-center gap-2">
+                                Xem Vật liệu & Dụng cụ <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                            <button onclick="goToPage(4)" class="px-5 py-3.5 rounded-xl bg-blue-800/60 border border-blue-400/40 text-blue-100 hover:bg-blue-700 font-bold text-sm transition flex items-center gap-2">
+                                <i class="fa-solid fa-eye"></i> Xem 5 Quy tắc Chế tạo (Có hình)
+                            </button>
+                            <button onclick="goToPage(5)" class="px-5 py-3.5 rounded-xl bg-emerald-600/30 border border-emerald-400/50 text-emerald-200 hover:bg-emerald-600 hover:text-white font-bold text-sm transition flex items-center gap-2">
+                                <i class="fa-solid fa-screwdriver-wrench"></i> Hướng dẫn Mặt cắt & Mẹo Mùn gỗ + Keo
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Khối Bảng Đấu & Lịch Trình -->
+                    <div class="lg:col-span-5 bg-slate-900/95 border border-blue-500/40 rounded-2xl p-6 space-y-4 shadow-xl">
+                        <h3 class="font-extrabold text-base sm:text-lg text-amber-300 flex items-center gap-2">
+                            <i class="fa-solid fa-sitemap"></i> BẢNG ĐẤU & TIẾN ĐỘ TỔ CHỨC
+                        </h3>
+
+                        <div class="p-4 rounded-xl bg-blue-950/80 border border-blue-700/60 space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2.5 py-0.5 rounded bg-blue-500 text-white font-black text-xs">BẢNG A (THCS)</span>
+                                <span class="text-xs font-mono text-blue-300">Tiết CLB Tuần 1 - Tháng 11/2026</span>
+                            </div>
+                            <div class="font-extrabold text-white text-base pt-1">Học sinh Khối 7 và Khối 8</div>
+                            <p class="text-xs text-blue-200/80">Đăng ký trực tiếp với GVBM hoặc Thầy Nguyễn Văn Mạnh (CS1) / Cô Trần Thị Dung (CS2).</p>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-orange-950/60 border border-orange-600/60 space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2.5 py-0.5 rounded bg-orange-500 text-slate-950 font-black text-xs">BẢNG B (THPT)</span>
+                                <span class="text-xs font-mono text-orange-300">Tiết CLB Tuần 1 - Tháng 11/2026</span>
+                            </div>
+                            <div class="font-extrabold text-white text-base pt-1">Học sinh Khối 10 và Khối 11</div>
+                            <p class="text-xs text-orange-200/90">
+                                <strong>Yêu cầu:</strong> Các lớp 10, 11 có môn tự chọn Vật lý tham gia ít nhất $01$ đội chơi; khuyến khích các lớp còn lại tham gia.
+                            </p>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-emerald-950/70 border border-emerald-600/50 text-xs text-emerald-200 flex items-center gap-3">
+                            <i class="fa-solid fa-chalkboard-user text-xl text-emerald-400"></i>
+                            <div>
+                                <strong>Tập huấn đội thi:</strong> Giờ ra chơi buổi sáng <strong>15/10/2026</strong> (Phổ biến thể lệ và hướng dẫn kỹ thuật thiết kế sản phẩm).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             TRANG 2: KHO VẬT LIỆU & CHECKLIST DỤNG CỤ
+             ========================================== -->
+        <section id="page-2" class="page-slide">
+            <div class="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+                <div>
+                    <span class="text-xs font-extrabold uppercase tracking-wider text-orange-600 bg-orange-100 px-3 py-1 rounded-full">Trang 2 / 7 • Chuẩn bị nguyên vật liệu</span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mt-2">VẬT LIỆU ĐƯỢC CẤP & DỤNG CỤ TỰ CHUẨN BỊ</h2>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-500">Đánh dấu vào danh sách bên phải để kiểm tra dụng cụ của đội trước ngày thi.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Vật liệu BTC cung cấp + Bài toán Ngân sách gỗ -->
+                <div class="lg:col-span-5 bg-slate-900 text-white rounded-3xl p-6 sm:p-7 shadow-xl border border-slate-700 flex flex-col justify-between">
+                    <div>
+                        <span class="px-3 py-1 rounded-lg bg-blue-500/20 text-blue-300 font-bold text-xs">
+                            <i class="fa-solid fa-cubes mr-1"></i> BAN TỔ CHỨC CUNG CẤP
+                        </span>
+                        <h3 class="text-xl font-black mt-3">Định Mức Vật Liệu ($12\text{ Thanh Gỗ}$)</h3>
+                        <p class="text-xs text-slate-300 mt-1 mb-4">Mỗi đội thi được Ban Tổ chức phát đúng số lượng que gỗ tiêu chuẩn sau:</p>
+
+                        <div class="space-y-3.5">
+                            <!-- 10 thanh dẹt -->
+                            <div class="bg-slate-800/90 border border-blue-500/40 rounded-2xl p-3.5">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-extrabold text-amber-300 text-sm sm:text-base">10 Que Gỗ Tiết Diện Chữ Nhật</span>
+                                    <span class="font-mono text-xs bg-amber-500/20 text-amber-300 px-2.5 py-0.5 rounded font-bold">$10\text{ thanh}$</span>
+                                </div>
+                                <div class="text-xs text-slate-300 mb-2">
+                                    Kích thước mỗi thanh: $\mathbf{0.5\text{ cm} \times 1\text{ cm} \times 60\text{ cm}}$ (Tổng: $600\text{ cm}$)
+                                </div>
+                                <svg viewBox="0 0 320 52" class="w-full h-auto bg-slate-950 rounded-xl p-2 border border-slate-700">
+                                    <rect x="15" y="18" width="36" height="18" fill="#fbbf24" stroke="#fff" stroke-width="1.5"/>
+                                    <text x="33" y="13" fill="#93c5fd" font-size="9" font-family="monospace" text-anchor="middle">1 cm</text>
+                                    <text x="64" y="31" fill="#93c5fd" font-size="9" font-family="monospace">0.5 cm</text>
+                                    <rect x="100" y="18" width="205" height="18" fill="#d97706" rx="2"/>
+                                    <text x="202" y="31" fill="#fff" font-size="10" font-family="monospace" font-weight="bold" text-anchor="middle">Chiều dài L = 60 cm</text>
+                                </svg>
+                            </div>
+
+                            <!-- 02 thanh vuông -->
+                            <div class="bg-slate-800/90 border border-orange-500/40 rounded-2xl p-3.5">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-extrabold text-orange-400 text-sm sm:text-base">02 Que Gỗ Tiết Diện Vuông</span>
+                                    <span class="font-mono text-xs bg-orange-500/20 text-orange-300 px-2.5 py-0.5 rounded font-bold">$02\text{ thanh}$</span>
+                                </div>
+                                <div class="text-xs text-slate-300 mb-2">
+                                    Kích thước mỗi thanh: $\mathbf{1\text{ cm} \times 1\text{ cm} \times 60\text{ cm}}$ (Tổng: $120\text{ cm}$)
+                                </div>
+                                <svg viewBox="0 0 320 58" class="w-full h-auto bg-slate-950 rounded-xl p-2 border border-slate-700">
+                                    <rect x="15" y="16" width="32" height="32" fill="#f97316" stroke="#fff" stroke-width="1.5"/>
+                                    <text x="31" y="12" fill="#fdba74" font-size="9" font-family="monospace" text-anchor="middle">1 cm</text>
+                                    <text x="60" y="35" fill="#fdba74" font-size="9" font-family="monospace">1 cm</text>
+                                    <rect x="100" y="16" width="205" height="32" fill="#ea580c" rx="2"/>
+                                    <text x="202" y="36" fill="#fff" font-size="10" font-family="monospace" font-weight="bold" text-anchor="middle">Chiều dài L = 60 cm (Dầm chính)</text>
+                                </svg>
+                            </div>
+
+                            <!-- CẢNH BÁO NGÂN SÁCH GỖ (KHẮC PHỤC LỖI #2) -->
+                            <div class="bg-amber-950/80 border border-amber-500/60 rounded-2xl p-3.5 text-xs space-y-1.5">
+                                <div class="font-extrabold text-amber-300 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-calculator"></i> BÀI TOÁN "NGÂN SÁCH GỖ" (TRÁNH THIẾU GỖ!):
+                                </div>
+                                <p class="text-amber-100/90 leading-relaxed">
+                                    • Dùng $02$ thanh vuông ($1\times 1\text{ cm}$) làm 2 dầm đáy + $02$ thanh dẹt ($0.5\times 1\text{ cm}$) làm 2 thanh biên trên $\rightarrow$ Đội bạn chỉ còn đúng <strong>$08\text{ thanh dẹt } 60\text{ cm}$ ($\mathbf{480\text{ cm}}$ dài)</strong> cho toàn bộ thanh đứng, thanh xéo, tà ngang và giằng đỉnh!<br>
+                                    • <strong>Bắt buộc:</strong> Cộng tổng chiều dài các đoạn cắt trên bản vẽ A3 phải <strong>$&lt; 460\text{ cm}$</strong> (trừ hao mạch cưa) trước khi cắt!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-slate-700 text-xs text-blue-200 flex items-start gap-2">
+                        <i class="fa-solid fa-lightbulb text-amber-400 text-base mt-0.5"></i>
+                        <span><strong>Mẹo tận dụng:</strong> Giữ lại toàn bộ phần <strong>mùn cưa / bột gỗ</strong> sinh ra khi cưa và chà nhám trên một tờ giấy sạch để làm chất độn gia cường mối nối ở Trang 5!</span>
+                    </div>
+                </div>
+
+                <!-- Checklist dụng cụ đội tự chuẩn bị (8 mục, thêm An toàn lao động) -->
+                <div class="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-7 shadow-xl border border-slate-200">
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <span class="text-xs font-bold uppercase text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-md">Các đội dự thi tự chuẩn bị</span>
+                            <h3 class="text-xl font-black text-slate-900 mt-1">Danh Mục Dụng Cụ & Bảo Hộ Thi Công</h3>
+                        </div>
+                        <div class="text-right">
+                            <span id="checklist-status" class="font-mono text-sm font-black text-orange-600">0 / 8 mục</span>
+                            <button onclick="resetTools()" class="block text-xs text-slate-400 hover:text-red-500 underline ml-auto">Đặt lại</button>
+                        </div>
+                    </div>
+
+                    <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden mb-5">
+                        <div id="checklist-bar" class="h-full bg-gradient-to-r from-orange-500 to-emerald-500 transition-all duration-300" style="width: 0%"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <label class="flex items-start gap-3 p-3.5 rounded-2xl border border-slate-200 hover:border-orange-400 bg-slate-50/70 cursor-pointer transition select-none">
+                            <input type="checkbox" class="tool-cb mt-1 w-4 h-4 accent-orange-500" onchange="saveTools()">
+                            <div class="text-xs sm:text-sm">
+                                <div class="font-bold text-slate-900">1. Keo dán 502 + Đầu vòi nhỏ (2 - 3 lọ)</div>
+                                <div class="text-xs text-slate-500 mt-0.5">Nên gắn vòi kim nhựa nhỏ để tra keo chính xác vào khe hở và mùn gỗ.</div>
+                            </div>
+                        </label>
+
+                        <label class="flex items-start gap-3 p-3.5 rounded-2xl border border-slate-200 hover:border-orange-400 bg-slate-50/70 cursor-pointer transition select-none">
+                            <input type="checkbox" class="tool-cb mt-1 w-4 h-4 accent-orange-500" onchange="saveTools()">
+                            <div class="text-xs sm:text-sm">
+                                <div class="font-bold text-slate-900">2. Cưa cầm tay & Lưỡi cưa sắc</div>
+                                <div class="text-xs text-slate-500 mt-0.5">Cắt các thanh giàn đứng, thanh xiên đúng kích thước và thu hồi mùn cưa.</div>
+                            </div>
+                        </label>
+
+                        <label class="flex items-start gap-3 p-3.5 rounded-2xl border border-slate-200 hover:border-orange-400 bg-slate-50/70 cursor-pointer transition select-none">
+                            <input type="checkbox" class="tool-cb mt-1 w-4 h-4 accent-orange-500" onchange="saveTools()">
+                            <div class="text-xs sm:text-sm">
+                                <div class="font-bold text-slate-900">3. Dao rọc giấy (loại thân chắc chắn)</div>
+                                <div class="text-xs text-slate-500 mt-0.5">Hỗ trợ gọt vát góc nghiêng đầu thanh gỗ (tuyệt đối đẩy lưỡi dao hướng ra xa tay).</div>
+                            </div>
+                        </label>
+
+                        <label class="flex items-start gap-3 p-3.5 rounded-2xl border border-slate-200 hover:border-orange-400 bg-slate-50/70 cursor-pointer transition select-none">
+                            <input type="checkbox" class="tool-cb mt-1 w-4 h-4 accent-orange-500" onchange="saveTools()">
+                            <div class="text-xs sm:text-sm">
+                                <div class="font-bold text-slate-900">4. Giấy nhám (Nhám gỗ P120 - P240)</div>
+                                <div class="text-xs text-slate-500 mt-0.5">Chà phẳng vết cắt để tăng diện tích tiếp xúc và tạo bột gỗ mịn trám khe hở.</div>
+                            </div>
+                        </label>
+
+                        <label class="flex items-start gap-3 p-3.5 rounded-2xl border border-slate-200 hover:border-orange-400 bg-slate-50/70 cursor-pointer transition select-none">
+                            <input type="checkbox" class="tool-cb mt-1 w-4 h-4 accent-orange-500" onchange="saveTools()">
+                            <div class="text-xs sm:text-sm">
+                                <div class="font-bold text-slate-900">5. Thước kẻ kỹ thuật & Ê-ke</div>
+                                <div class="text-xs text-slate-500 mt-0.5">Đo kiểm tra chiều dài $50 - 60\text{ cm}$, khoang giữa $\ge 7\text{ cm}$, lọt lòng $\ge 4\text{ cm}$.</div>
+                            </div>
+                        </label>
+
+                        <label class="flex items-start gap-3 p-3.5 rounded-2xl border border-slate-200 hover:border-orange-400 bg-slate-50/70 cursor-pointer transition select-none">
+                            <input type="checkbox" class="tool-cb mt-1 w-4 h-4 accent-orange-500" onchange="saveTools()">
+                            <div class="text-xs sm:text-sm">
+                                <div class="font-bold text-slate-900">6. Bút chì / Bút lông kim đánh dấu</div>
+                                <div class="text-xs text-slate-500 mt-0.5">Lấy dấu chính xác vị trí các nút giàn đối xứng trên 2 thành cầu.</div>
+                            </div>
+                        </label>
+
+                        <label class="flex items-start gap-3 p-3.5 rounded-2xl border border-slate-200 hover:border-orange-400 bg-slate-50/70 cursor-pointer transition select-none">
+                            <input type="checkbox" class="tool-cb mt-1 w-4 h-4 accent-orange-500" onchange="saveTools()">
+                            <div class="text-xs sm:text-sm">
+                                <div class="font-bold text-slate-900">7. Giấy A3 (Bản vẽ tỷ lệ $1:1$) + Màng bọc nilon</div>
+                                <div class="text-xs text-slate-500 mt-0.5">Vẽ sẵn cầu tỷ lệ $1:1$ lên giấy A3; phủ lớp nilon mỏng lên trên để khi đặt gỗ dán keo không bị dính chặt vào giấy!</div>
+                            </div>
+                        </label>
+
+                        <!-- MỤC 8 MỚI: AN TOÀN LAO ĐỘNG & VỆ SINH SÂN TRƯỜNG (KHẮC PHỤC LỖI #4) -->
+                        <label class="flex items-start gap-3 p-3.5 rounded-2xl border-2 border-red-200 hover:border-red-400 bg-red-50/60 cursor-pointer transition select-none">
+                            <input type="checkbox" class="tool-cb mt-1 w-4 h-4 accent-red-600" onchange="saveTools()">
+                            <div class="text-xs sm:text-sm">
+                                <div class="font-extrabold text-red-900"><i class="fa-solid fa-shield-heart mr-1"></i>8. Kính bảo hộ, Khẩu trang & Bìa cứng lót sàn</div>
+                                <div class="text-xs text-red-700/90 mt-0.5">Keo 502 gặp mùn gỗ sẽ tỏa nhiệt và bốc khói cay mắt. Bắt buộc lót bìa cứng để không dính keo 502 xuống nền gạch sân trường!</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             TRANG 3: TRẠM KIỂM ĐỊNH KỸ THUẬT TƯƠNG TÁC
+             ========================================== -->
+        <section id="page-3" class="page-slide">
+            <div class="mb-5 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+                <div>
+                    <span class="text-xs font-extrabold uppercase tracking-wider text-blue-700 bg-blue-100 px-3 py-1 rounded-full">Trang 3 / 7 • Thông số hình học</span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mt-2">TRẠM KIỂM ĐỊNH THÔNG SỐ KỸ THUẬT</h2>
+                </div>
+                <button onclick="toggleCarDrive()" id="btn-drive-car" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm shadow flex items-center gap-2 w-fit transition">
+                    <i class="fa-solid fa-car-side"></i> Mô phỏng xe kiểm định ($10 \times 8 \times 8\text{ cm}$) qua cầu
+                </button>
+            </div>
+
+            <!-- Bản vẽ SVG Tương tác -->
+            <div class="bg-blueprint rounded-3xl p-4 sm:p-6 border-2 border-blue-800 shadow-xl mb-6 text-white">
+                <div class="w-full overflow-x-auto">
+                    <svg viewBox="0 0 850 285" class="w-full min-w-[650px] h-auto">
+                        <defs>
+                            <marker id="arr-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#38bdf8" />
+                            </marker>
+                            <marker id="arr-orange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#fb923c" />
+                            </marker>
+                        </defs>
+
+                        <!-- 2 Gối đỡ hai đầu -->
+                        <rect x="55" y="198" width="75" height="50" fill="#334155" stroke="#94a3b8" stroke-width="2" rx="4"/>
+                        <text x="92" y="228" fill="#f8fafc" font-size="11" font-weight="bold" text-anchor="middle">VẬT KÊ</text>
+
+                        <rect x="720" y="198" width="75" height="50" fill="#334155" stroke="#94a3b8" stroke-width="2" rx="4"/>
+                        <text x="757" y="228" fill="#f8fafc" font-size="11" font-weight="bold" text-anchor="middle">VẬT KÊ</text>
+
+                        <!-- Kê >= 4cm -->
+                        <line x1="80" y1="184" x2="130" y2="184" stroke="#fb923c" stroke-width="2" marker-start="url(#arr-orange)" marker-end="url(#arr-orange)"/>
+                        <text x="105" y="175" fill="#fdba74" font-size="11" font-family="monospace" font-weight="bold" text-anchor="middle">Kê ≥ 4 cm</text>
+
+                        <line x1="720" y1="184" x2="770" y2="184" stroke="#fb923c" stroke-width="2" marker-start="url(#arr-orange)" marker-end="url(#arr-orange)"/>
+                        <text x="745" y="175" fill="#fdba74" font-size="11" font-family="monospace" font-weight="bold" text-anchor="middle">Kê ≥ 4 cm</text>
+
+                        <!-- Kết cấu giàn cầu -->
+                        <line x1="80" y1="195" x2="770" y2="195" stroke="#f59e0b" stroke-width="7" stroke-linecap="round"/>
+                        <line x1="160" y1="72" x2="690" y2="72" stroke="#fbbf24" stroke-width="6" stroke-linecap="round"/>
+
+                        <line x1="80" y1="195" x2="160" y2="72" stroke="#fcd34d" stroke-width="5"/>
+                        <line x1="160" y1="72" x2="235" y2="195" stroke="#fcd34d" stroke-width="4"/>
+                        <line x1="235" y1="195" x2="310" y2="72" stroke="#fcd34d" stroke-width="4"/>
+
+                        <!-- 2 Khoang giữa >= 7cm -->
+                        <rect x="312" y="75" width="111" height="116" fill="#0284c7" fill-opacity="0.22"/>
+                        <rect x="427" y="75" width="111" height="116" fill="#0284c7" fill-opacity="0.22"/>
+                        <line x1="310" y1="72" x2="310" y2="195" stroke="#38bdf8" stroke-width="4" stroke-dasharray="4"/>
+                        <line x1="425" y1="72" x2="425" y2="195" stroke="#f97316" stroke-width="5"/>
+                        <line x1="540" y1="72" x2="540" y2="195" stroke="#38bdf8" stroke-width="4" stroke-dasharray="4"/>
+
+                        <text x="367" y="128" fill="#7dd3fc" font-size="11" font-family="monospace" font-weight="bold" text-anchor="middle">Khoang 1 ≥ 7 cm</text>
+                        <text x="482" y="128" fill="#7dd3fc" font-size="11" font-family="monospace" font-weight="bold" text-anchor="middle">Khoang 2 ≥ 7 cm</text>
+
+                        <!-- Treo tải -->
+                        <line x1="367" y1="195" x2="367" y2="245" stroke="#ef4444" stroke-width="3" stroke-dasharray="4,3"/>
+                        <line x1="482" y1="195" x2="482" y2="245" stroke="#ef4444" stroke-width="3" stroke-dasharray="4,3"/>
+                        <rect x="330" y="245" width="190" height="24" fill="#dc2626" rx="4"/>
+                        <text x="425" y="261" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">⬇ VỊ TRÍ TREO 02 THANH THÉP TẢI TRỌNG ⬇</text>
+
+                        <line x1="540" y1="72" x2="615" y2="195" stroke="#fcd34d" stroke-width="4"/>
+                        <line x1="615" y1="195" x2="690" y2="72" stroke="#fcd34d" stroke-width="4"/>
+                        <line x1="690" y1="72" x2="770" y2="195" stroke="#fcd34d" stroke-width="5"/>
+
+                        <!-- Xe kiểm định 10x8x8cm -->
+                        <g id="svg-test-car" transform="translate(170, 158)">
+                            <rect x="0" y="0" width="68" height="32" fill="#10b981" rx="6" stroke="#fff" stroke-width="2"/>
+                            <circle cx="15" cy="34" r="5.5" fill="#0f172a" stroke="#fff" stroke-width="2"/>
+                            <circle cx="53" cy="34" r="5.5" fill="#0f172a" stroke="#fff" stroke-width="2"/>
+                            <text x="34" y="15" fill="#022c22" font-size="8.5" font-weight="bold" text-anchor="middle">XE KIỂM ĐỊNH</text>
+                            <text x="34" y="25" fill="#022c22" font-size="8" font-family="monospace" font-weight="bold" text-anchor="middle">10×8×8 cm</text>
+                        </g>
+
+                        <!-- Kích thước tổng -->
+                        <line x1="35" y1="72" x2="35" y2="195" stroke="#38bdf8" stroke-width="2" marker-start="url(#arr-blue)" marker-end="url(#arr-blue)"/>
+                        <text x="42" y="138" fill="#38bdf8" font-size="11" font-family="monospace" font-weight="bold" id="svg-label-height">Cao: 22 cm (≤ 35 cm)</text>
+
+                        <line x1="80" y1="35" x2="770" y2="35" stroke="#38bdf8" stroke-width="2" marker-start="url(#arr-blue)" marker-end="url(#arr-blue)"/>
+                        <rect x="310" y="20" width="230" height="22" fill="#0f172a"/>
+                        <text x="425" y="35" fill="#38bdf8" font-size="12" font-family="monospace" font-weight="bold" text-anchor="middle" id="svg-label-length">Chiều dài: 56 cm (50 - 60 cm)</text>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Bộ Thanh Trượt Kiểm Tra Kích Thước -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <div class="lg:col-span-8 bg-white rounded-3xl p-6 shadow-lg border border-slate-200">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- 1. Chiều dài -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200" id="card-length">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-xs sm:text-sm">1. Chiều dài cầu ($50\text{ cm} \le L \le 60\text{ cm}$)</span>
+                                <span id="badge-length" class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-700">ĐẠT</span>
+                            </div>
+                            <div class="font-mono text-lg font-black text-slate-900 mb-1" id="val-length">56 cm</div>
+                            <input type="range" id="input-length" min="42" max="68" step="1" value="56" oninput="checkSpecs()">
+                        </div>
+
+                        <!-- 2. Bề rộng -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200" id="card-width">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-xs sm:text-sm">2. Bề rộng cầu ($10\text{ cm} \le B \le 20\text{ cm}$)</span>
+                                <span id="badge-width" class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-700">ĐẠT</span>
+                            </div>
+                            <div class="font-mono text-lg font-black text-slate-900 mb-1" id="val-width">12 cm</div>
+                            <input type="range" id="input-width" min="6" max="25" step="0.5" value="12" oninput="checkSpecs()">
+                        </div>
+
+                        <!-- 3. Chiều cao -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200" id="card-height">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-xs sm:text-sm">3. Chiều cao cầu ($H \le 35\text{ cm}$)</span>
+                                <span id="badge-height" class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-700">ĐẠT</span>
+                            </div>
+                            <div class="font-mono text-lg font-black text-slate-900 mb-1" id="val-height">22 cm</div>
+                            <input type="range" id="input-height" min="10" max="42" step="1" value="22" oninput="checkSpecs()">
+                        </div>
+
+                        <!-- 4. Khoang giữa -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200" id="card-bay">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-xs sm:text-sm">4. Hai khoang giàn giữa ($d_{\text{khoang}} \ge 7\text{ cm}$)</span>
+                                <span id="badge-bay" class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-700">ĐẠT</span>
+                            </div>
+                            <div class="font-mono text-lg font-black text-slate-900 mb-1" id="val-bay">8 cm</div>
+                            <input type="range" id="input-bay" min="4" max="14" step="0.5" value="8" oninput="checkSpecs()">
+                        </div>
+
+                        <!-- 5. Khoảng lọt lòng -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200" id="card-gap">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-xs sm:text-sm">5. Khoảng lọt lòng 2 thanh ($\Delta \ge 4\text{ cm}$)</span>
+                                <span id="badge-gap" class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-700">ĐẠT</span>
+                            </div>
+                            <div class="font-mono text-lg font-black text-slate-900 mb-1" id="val-gap">5 cm</div>
+                            <input type="range" id="input-gap" min="1.5" max="9" step="0.5" value="5" oninput="checkSpecs()">
+                        </div>
+
+                        <!-- 6. Kê hai đầu -->
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200" id="card-support">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-xs sm:text-sm">6. Đoạn kê lên vật kê mỗi bên ($l_{\text{kê}} \ge 4\text{ cm}$)</span>
+                                <span id="badge-support" class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-700">ĐẠT</span>
+                            </div>
+                            <div class="font-mono text-lg font-black text-slate-900 mb-1" id="val-support">5 cm</div>
+                            <input type="range" id="input-support" min="1.5" max="9" step="0.5" value="5" oninput="checkSpecs()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kết quả tổng hợp -->
+                <div class="lg:col-span-4 rounded-3xl p-6 shadow-xl border-2 bg-emerald-950 text-white border-emerald-500 transition-all space-y-4" id="spec-summary-box">
+                    <div class="flex items-center gap-3">
+                        <div id="spec-icon" class="w-11 h-11 rounded-2xl bg-emerald-500 text-slate-950 flex items-center justify-center text-xl font-black shrink-0">
+                            <i class="fa-solid fa-check-double"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs font-mono uppercase text-emerald-300" id="spec-sub">Đánh giá thông số</div>
+                            <h3 class="text-lg font-black" id="spec-title">ĐẠT CHUẨN KỸ THUẬT!</h3>
+                        </div>
+                    </div>
+                    <p id="spec-desc" class="text-xs sm:text-sm text-emerald-100 leading-relaxed">
+                        Toàn bộ 6 thông số kích thước của bản vẽ đều thỏa mãn điều kiện biên của Ban Tổ chức.
+                    </p>
+                    <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-white/10 text-xs text-slate-200 leading-relaxed">
+                        <strong class="text-amber-300 block mb-1"><i class="fa-solid fa-truck-fast mr-1"></i> Điều kiện thông xe dọc cầu:</strong>
+                        Khoang dọc theo mặt cầu phải đảm bảo mô hình xe có kích thước $\mathbf{10\text{ cm} \times 8\text{ cm} \times 8\text{ cm}}$ (dài $\times$ rộng $\times$ cao) di chuyển suốt từ đầu cầu đến cuối cầu mà không bị cản trở.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             TRANG 4: 5 QUY TẮC CHẾ TẠO (KÈM HÌNH MINH HỌA TƯƠNG TÁC)
+             ========================================== -->
+        <section id="page-4" class="page-slide">
+            <div class="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <span class="text-xs font-extrabold uppercase tracking-wider text-red-600 bg-red-100 px-3 py-1 rounded-full">Trang 4 / 7 • Quy chuẩn kết cấu</span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mt-2">5 QUY ĐỊNH GIỚI HẠN KHI LẮP GHÉP KẾT CẤU</h2>
+                    <p class="text-xs sm:text-sm text-slate-600 mt-1">Bấm nút chuyển đổi bên phải để quan sát trực quan sự khác biệt giữa <strong>Cách ghép sai quy chế</strong> và <strong>Cách ghép đúng kỹ thuật</strong>.</p>
+                </div>
+
+                <!-- Nút Chuyển Đổi Chế Độ Xem Tất Cả Hình -->
+                <div class="inline-flex rounded-2xl bg-slate-200 p-1.5 shadow-inner shrink-0">
+                    <button id="btn-mode-wrong" onclick="setVisualMode('wrong')" class="px-4 py-2 rounded-xl text-xs font-black transition bg-red-600 text-white shadow">
+                        🚫 Xem Hình VI PHẠM
+                    </button>
+                    <button id="btn-mode-right" onclick="setVisualMode('right')" class="px-4 py-2 rounded-xl text-xs font-black transition text-slate-700 hover:text-slate-950">
+                        ✅ Xem Hình ĐÚNG QUY CHẾ
+                    </button>
+                </div>
+            </div>
+
+            <!-- Lưới 5 Thẻ Luật Cấm Có Hình Vẽ SVG Minh Họa -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- QUY ĐỊNH 1 -->
+                <div class="bg-white rounded-3xl p-5 shadow-lg border-2 border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-2.5 py-1 rounded-lg bg-red-100 text-red-700 font-black text-xs">QUY ĐỊNH #1</span>
+                            <span class="mode-badge text-xs font-bold text-red-600">🚫 Đang hiển thị: SAI QUY CHẾ</span>
+                        </div>
+                        <h3 class="font-extrabold text-slate-900 text-base mb-1">Không dán 02 thanh dính liền theo phương dọc</h3>
+                        <p class="text-xs text-slate-600 mb-3">Không được dán ghép sát $02$ thanh bất kỳ dọc theo chiều dài thanh để tạo thành thanh kép.</p>
+
+                        <div class="rounded-2xl overflow-hidden border border-slate-200 bg-slate-950 p-3">
+                            <svg class="svg-wrong w-full h-36" viewBox="0 0 280 120">
+                                <text x="140" y="18" fill="#f87171" font-size="10" font-weight="bold" text-anchor="middle">❌ VI PHẠM: Dán 2 thanh áp sát dọc chiều dài</text>
+                                <rect x="25" y="38" width="230" height="18" fill="#f59e0b" rx="2"/>
+                                <line x1="25" y1="57" x2="255" y2="57" stroke="#ef4444" stroke-width="4" stroke-dasharray="6,3"/>
+                                <rect x="25" y="58" width="230" height="18" fill="#d97706" rx="2"/>
+                                <text x="140" y="96" fill="#fca5a5" font-size="9.5" font-family="monospace" text-anchor="middle">Lớp keo dán dọc suốt chiều dài ➔ PHẠM QUY</text>
+                            </svg>
+                            <svg class="svg-right hidden w-full h-36" viewBox="0 0 280 120">
+                                <text x="140" y="18" fill="#4ade80" font-size="10" font-weight="bold" text-anchor="middle">✅ HỢP LỆ: Liên kết tại các nút giàn cách nhau ≥ 4 cm</text>
+                                <rect x="25" y="30" width="230" height="14" fill="#10b981" rx="2"/>
+                                <rect x="25" y="76" width="230" height="14" fill="#10b981" rx="2"/>
+                                <line x1="70" y1="44" x2="120" y2="76" stroke="#fbbf24" stroke-width="6"/>
+                                <line x1="120" y1="76" x2="170" y2="44" stroke="#fbbf24" stroke-width="6"/>
+                                <line x1="170" y1="44" x2="220" y2="76" stroke="#fbbf24" stroke-width="6"/>
+                                <text x="140" y="108" fill="#86efac" font-size="9.5" font-family="monospace" text-anchor="middle">Ghép thành hệ giàn tam giác ➔ ĐÚNG QUY CHẾ</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUY ĐỊNH 2 -->
+                <div class="bg-white rounded-3xl p-5 shadow-lg border-2 border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-2.5 py-1 rounded-lg bg-red-100 text-red-700 font-black text-xs">QUY ĐỊNH #2</span>
+                            <span class="mode-badge text-xs font-bold text-red-600">🚫 Đang hiển thị: SAI QUY CHẾ</span>
+                        </div>
+                        <h3 class="font-extrabold text-slate-900 text-base mb-1">Khoảng cách lọt lòng tối thiểu $\ge 4\text{ cm}$</h3>
+                        <p class="text-xs text-slate-600 mb-3">Khoảng cách lọt lòng (khoảng hở) giữa $02$ thanh song song bất kỳ phải đạt tối thiểu $4\text{ cm}$.</p>
+
+                        <div class="rounded-2xl overflow-hidden border border-slate-200 bg-slate-950 p-3">
+                            <svg class="svg-wrong w-full h-36" viewBox="0 0 280 120">
+                                <text x="140" y="18" fill="#f87171" font-size="10" font-weight="bold" text-anchor="middle">❌ VI PHẠM: Đặt 2 thanh quá gần nhau (&lt; 4 cm)</text>
+                                <rect x="95" y="28" width="14" height="65" fill="#f59e0b" rx="2"/>
+                                <rect x="135" y="28" width="14" height="65" fill="#f59e0b" rx="2"/>
+                                <line x1="109" y1="60" x2="135" y2="60" stroke="#ef4444" stroke-width="2"/>
+                                <text x="122" y="53" fill="#f87171" font-size="9" font-family="monospace" font-weight="bold" text-anchor="middle">2 cm</text>
+                                <text x="140" y="108" fill="#fca5a5" font-size="9.5" font-family="monospace" text-anchor="middle">Lọt lòng 2 cm (&lt; 4 cm) ➔ PHẠM QUY</text>
+                            </svg>
+                            <svg class="svg-right hidden w-full h-36" viewBox="0 0 280 120">
+                                <text x="140" y="18" fill="#4ade80" font-size="10" font-weight="bold" text-anchor="middle">✅ HỢP LỆ: Khoảng lọt lòng từ 4 cm trở lên</text>
+                                <rect x="65" y="28" width="14" height="65" fill="#10b981" rx="2"/>
+                                <rect x="195" y="28" width="14" height="65" fill="#10b981" rx="2"/>
+                                <line x1="79" y1="60" x2="195" y2="60" stroke="#38bdf8" stroke-width="2"/>
+                                <text x="137" y="53" fill="#7dd3fc" font-size="10" font-family="monospace" font-weight="bold" text-anchor="middle">Lọt lòng ≥ 4 cm</text>
+                                <text x="140" y="108" fill="#86efac" font-size="9.5" font-family="monospace" text-anchor="middle">Đảm bảo khoảng cách tối thiểu ➔ ĐÚNG QUY CHẾ</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUY ĐỊNH 3 -->
+                <div class="bg-white rounded-3xl p-5 shadow-lg border-2 border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-2.5 py-1 rounded-lg bg-red-100 text-red-700 font-black text-xs">QUY ĐỊNH #3</span>
+                            <span class="mode-badge text-xs font-bold text-red-600">🚫 Đang hiển thị: SAI QUY CHẾ</span>
+                        </div>
+                        <h3 class="font-extrabold text-slate-900 text-base mb-1">Các thanh dán đè lên nhau không quá $02$ thanh</h3>
+                        <p class="text-xs text-slate-600 mb-3">Tại mọi nút giao, số lớp thanh gỗ dán chồng đè lên nhau tối đa là $02$ lớp.</p>
+
+                        <div class="rounded-2xl overflow-hidden border border-slate-200 bg-slate-950 p-3">
+                            <svg class="svg-wrong w-full h-36" viewBox="0 0 280 120">
+                                <text x="140" y="18" fill="#f87171" font-size="10" font-weight="bold" text-anchor="middle">❌ VI PHẠM: Dán đè chồng 3 lớp gỗ tại nút giao</text>
+                                <rect x="40" y="70" width="200" height="14" fill="#d97706" rx="2"/>
+                                <text x="252" y="80" fill="#fca5a5" font-size="8" font-family="monospace">Lớp 1</text>
+                                <rect x="65" y="54" width="150" height="14" fill="#f59e0b" rx="2"/>
+                                <text x="230" y="64" fill="#fca5a5" font-size="8" font-family="monospace">Lớp 2</text>
+                                <rect x="95" y="38" width="90" height="14" fill="#ef4444" stroke="#fff" stroke-width="1.5" rx="2"/>
+                                <text x="205" y="48" fill="#ef4444" font-size="9" font-weight="bold" font-family="monospace">Lớp 3 (SAI)</text>
+                                <text x="140" y="108" fill="#fca5a5" font-size="9.5" font-family="monospace" text-anchor="middle">Đè chồng 3 thanh lên nhau ➔ PHẠM QUY</text>
+                            </svg>
+                            <svg class="svg-right hidden w-full h-36" viewBox="0 0 280 120">
+                                <text x="140" y="18" fill="#4ade80" font-size="10" font-weight="bold" text-anchor="middle">✅ HỢP LỆ: Chồng tối đa 2 thanh (hoặc ghép đồng phẳng)</text>
+                                <rect x="40" y="68" width="200" height="15" fill="#10b981" rx="2"/>
+                                <text x="250" y="79" fill="#86efac" font-size="8" font-family="monospace">Lớp 1</text>
+                                <rect x="75" y="51" width="130" height="15" fill="#38bdf8" rx="2"/>
+                                <text x="220" y="62" fill="#7dd3fc" font-size="8" font-family="monospace">Lớp 2</text>
+                                <text x="140" y="108" fill="#86efac" font-size="9.5" font-family="monospace" text-anchor="middle">Không vượt quá 2 lớp thanh ➔ ĐÚNG QUY CHẾ</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUY ĐỊNH 4 -->
+                <div class="bg-white rounded-3xl p-5 shadow-lg border-2 border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-2.5 py-1 rounded-lg bg-red-100 text-red-700 font-black text-xs">QUY ĐỊNH #4</span>
+                            <span class="mode-badge text-xs font-bold text-red-600">🚫 Đang hiển thị: SAI QUY CHẾ</span>
+                        </div>
+                        <h3 class="font-extrabold text-slate-900 text-base mb-1">Mặt cầu không nhiều hơn $02$ thanh dầm dọc</h3>
+                        <p class="text-xs text-slate-600 mb-3">Trên mặt cầu, số lượng thanh dầm dọc $\le 02$ thanh; số lượng thanh ngang và thanh xiên bố trí tùy ý.</p>
+
+                        <div class="rounded-2xl overflow-hidden border border-slate-200 bg-slate-950 p-3">
+                            <svg class="svg-wrong w-full h-36" viewBox="0 0 280 120">
+                                <text x="140" y="16" fill="#f87171" font-size="10" font-weight="bold" text-anchor="middle">❌ VI PHẠM: Mặt cầu sử dụng 3 thanh dầm dọc</text>
+                                <rect x="25" y="28" width="230" height="9" fill="#f59e0b"/>
+                                <rect x="25" y="56" width="230" height="9" fill="#ef4444" stroke="#fff" stroke-width="1"/>
+                                <rect x="25" y="84" width="230" height="9" fill="#f59e0b"/>
+                                <text x="140" y="52" fill="#fca5a5" font-size="8.5" font-weight="bold" text-anchor="middle">Dầm dọc thứ 3 ở giữa (SAI)</text>
+                                <text x="140" y="110" fill="#fca5a5" font-size="9.5" font-family="monospace" text-anchor="middle">Quá 2 thanh dầm dọc mặt cầu ➔ PHẠM QUY</text>
+                            </svg>
+                            <svg class="svg-right hidden w-full h-36" viewBox="0 0 280 120">
+                                <text x="140" y="16" fill="#4ade80" font-size="10" font-weight="bold" text-anchor="middle">✅ HỢP LỆ: 02 thanh dầm dọc + hệ thanh ngang & xiên</text>
+                                <rect x="25" y="28" width="230" height="10" fill="#10b981"/>
+                                <rect x="25" y="82" width="230" height="10" fill="#10b981"/>
+                                <line x1="60" y1="38" x2="60" y2="82" stroke="#38bdf8" stroke-width="5"/>
+                                <line x1="115" y1="38" x2="115" y2="82" stroke="#38bdf8" stroke-width="5"/>
+                                <line x1="165" y1="38" x2="165" y2="82" stroke="#38bdf8" stroke-width="5"/>
+                                <line x1="220" y1="38" x2="220" y2="82" stroke="#38bdf8" stroke-width="5"/>
+                                <line x1="60" y1="38" x2="115" y2="82" stroke="#fbbf24" stroke-width="3"/>
+                                <line x1="165" y1="82" x2="220" y2="38" stroke="#fbbf24" stroke-width="3"/>
+                                <text x="140" y="110" fill="#86efac" font-size="9.5" font-family="monospace" text-anchor="middle">Đúng 02 dầm dọc + thanh ngang/xiên ➔ ĐÚNG QUY CHẾ</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUY ĐỊNH 5 -->
+                <div class="bg-white rounded-3xl p-5 shadow-lg border-2 border-slate-200 flex flex-col justify-between md:col-span-2 lg:col-span-2">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-2.5 py-1 rounded-lg bg-red-100 text-red-700 font-black text-xs">QUY ĐỊNH #5 (TRỌNG TÂM)</span>
+                            <span class="mode-badge text-xs font-bold text-red-600">🚫 Đang hiển thị: SAI QUY CHẾ</span>
+                        </div>
+                        <h3 class="font-extrabold text-slate-900 text-base mb-1">Không được bố trí các thanh gỗ chịu lực bên dưới mặt cầu</h3>
+                        <p class="text-xs text-slate-600 mb-3">Toàn bộ hệ giàn chịu lực phải phát triển phía trên mặt phẳng xe chạy. Khi thử tải, thanh chịu lực đặt trên $02$ thanh tiếp xúc trực tiếp với vật kê và kê mỗi bên $\ge 4\text{ cm}$.</p>
+
+                        <div class="rounded-2xl overflow-hidden border border-slate-200 bg-slate-950 p-3">
+                            <svg class="svg-wrong w-full h-36" viewBox="0 0 560 120">
+                                <text x="280" y="16" fill="#f87171" font-size="11" font-weight="bold" text-anchor="middle">❌ VI PHẠM: Bố trí hệ thanh chống hoặc giàn chịu lực bên dưới mặt cầu</text>
+                                <rect x="45" y="45" width="55" height="55" fill="#475569"/>
+                                <rect x="460" y="45" width="55" height="55" fill="#475569"/>
+                                <line x1="65" y1="45" x2="495" y2="45" stroke="#f59e0b" stroke-width="6"/>
+                                <line x1="100" y1="48" x2="200" y2="92" stroke="#ef4444" stroke-width="5"/>
+                                <line x1="200" y1="92" x2="360" y2="92" stroke="#ef4444" stroke-width="5"/>
+                                <line x1="460" y1="48" x2="360" y2="92" stroke="#ef4444" stroke-width="5"/>
+                                <text x="280" y="80" fill="#fca5a5" font-size="10" font-weight="bold" text-anchor="middle">🚫 KHÔNG ĐƯỢC CÓ KẾT CẤU CHỊU LỰC DƯỚI MẶT CẦU</text>
+                            </svg>
+                            <svg class="svg-right hidden w-full h-36" viewBox="0 0 560 120">
+                                <text x="280" y="16" fill="#4ade80" font-size="11" font-weight="bold" text-anchor="middle">✅ HỢP LỆ: Hệ giàn nằm phía trên mặt cầu, hai đầu kê lên vật kê ≥ 4 cm</text>
+                                <rect x="45" y="75" width="55" height="35" fill="#475569"/>
+                                <rect x="460" y="75" width="55" height="35" fill="#475569"/>
+                                <line x1="65" y1="73" x2="495" y2="73" stroke="#10b981" stroke-width="6"/>
+                                <line x1="130" y1="28" x2="430" y2="28" stroke="#38bdf8" stroke-width="5"/>
+                                <line x1="65" y1="73" x2="130" y2="28" stroke="#38bdf8" stroke-width="4"/>
+                                <line x1="130" y1="28" x2="210" y2="73" stroke="#38bdf8" stroke-width="4"/>
+                                <line x1="280" y1="28" x2="280" y2="73" stroke="#fbbf24" stroke-width="4"/>
+                                <line x1="430" y1="28" x2="350" y2="73" stroke="#38bdf8" stroke-width="4"/>
+                                <line x1="495" y1="73" x2="430" y2="28" stroke="#38bdf8" stroke-width="4"/>
+                                <text x="280" y="102" fill="#86efac" font-size="10" font-family="monospace" text-anchor="middle">Khoảng không dưới mặt cầu thông thoáng hoàn toàn ➔ ĐÚNG QUY CHẾ</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==========================================
+             TRANG 5: HƯỚNG DẪN MẶT CẮT, XOAY TIẾT DIỆN & KỸ THUẬT MÙN GỖ + KEO 502
+             ========================================== -->
+        <section id="page-5" class="page-slide">
+            <div class="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <span class="text-xs font-extrabold uppercase tracking-wider text-teal-700 bg-teal-100 px-3 py-1 rounded-full">Trang 5 / 7 • Cẩm nang kỹ thuật thực hành</span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mt-2">MẶT CẮT KẾT CẤU, HƯỚNG ĐẶT TIẾT DIỆN & TUYỆT CHIÊU MÙN GỖ + KEO 502</h2>
+                    <p class="text-xs sm:text-sm text-slate-600 mt-1">Nắm vững bản vẽ 3 mặt cắt và 4 kỹ thuật gia công dưới đây giúp cây cầu cứng vững gấp nhiều lần và không bị bung mối nối khi treo tải nặng.</p>
+                </div>
+            </div>
+
+            <!-- PHẦN A: BẢN VẼ TƯƠNG TÁC 3 GÓC NHÌN (MẶT CẮT DỌC - MẶT CẦU TÀ NGANG/XÉO - MẶT CẮT NGANG) -->
+            <div class="bg-blueprint text-white rounded-3xl p-5 sm:p-7 border-2 border-blue-800 shadow-2xl mb-8">
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-5 border-b border-blue-800/80 pb-4">
+                    <div>
+                        <span class="text-xs font-mono uppercase text-amber-300 font-bold block">Bản vẽ giải phẫu kết cấu cầu giàn</span>
+                        <h3 class="text-lg sm:text-xl font-black">Bấm chọn từng mặt cắt để quan sát cấu tạo chi tiết:</h3>
+                    </div>
+                    <!-- Nút chuyển đổi 3 góc nhìn -->
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="switchBlueprintTab('doc')" id="tab-btn-doc" class="px-4 py-2 rounded-xl text-xs font-black transition bg-orange-500 text-slate-950 shadow">
+                            1. Mặt Cắt Dọc (Thành Giàn Đứng & Xéo)
+                        </button>
+                        <button onclick="switchBlueprintTab('bang')" id="tab-btn-bang" class="px-4 py-2 rounded-xl text-xs font-black transition bg-slate-800 text-blue-200 hover:bg-slate-700 border border-blue-700">
+                            2. Mặt Bằng Cầu (Thanh Tà Ngang & Giằng Xéo)
+                        </button>
+                        <button onclick="switchBlueprintTab('ngang')" id="tab-btn-ngang" class="px-4 py-2 rounded-xl text-xs font-black transition bg-slate-800 text-blue-200 hover:bg-slate-700 border border-blue-700">
+                            3. Mặt Cắt Ngang (Khung Không Gian & Lòng Xe)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- KHUNG HIỂN THỊ 1: MẶT CẮT DỌC (LONGITUDINAL SECTION) -->
+                <div id="view-doc" class="blueprint-view grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <div class="lg:col-span-8 bg-slate-950/90 rounded-2xl p-4 border border-blue-800/80 overflow-x-auto">
+                        <svg viewBox="0 0 760 250" class="w-full min-w-[580px] h-auto">
+                            <!-- Chú thích màu sắc -->
+                            <rect x="15" y="12" width="12" height="12" fill="#f97316" rx="2"/>
+                            <text x="33" y="22" fill="#fed7aa" font-size="10" font-weight="bold">Dầm dọc dưới (1×1×60 cm - Chịu kéo)</text>
+
+                            <rect x="255" y="12" width="12" height="12" fill="#38bdf8" rx="2"/>
+                            <text x="273" y="22" fill="#bae6fd" font-size="10" font-weight="bold">Biên trên & Thanh đứng (0.5×1 cm - Chịu nén)</text>
+
+                            <rect x="535" y="12" width="12" height="12" fill="#fbbf24" rx="2"/>
+                            <text x="553" y="22" fill="#fef08a" font-size="10" font-weight="bold">Thanh xéo (Truyền lực cắt)</text>
+
+                            <!-- Gối kê -->
+                            <rect x="40" y="195" width="60" height="35" fill="#475569" rx="3"/>
+                            <rect x="660" y="195" width="60" height="35" fill="#475569" rx="3"/>
+                            <text x="70" y="216" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">VẬT KÊ</text>
+                            <text x="690" y="216" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">VẬT KÊ</text>
+
+                            <!-- Thanh biên trên -->
+                            <rect x="145" y="62" width="470" height="10" fill="#38bdf8" rx="2"/>
+                            <text x="380" y="54" fill="#38bdf8" font-size="10" font-family="monospace" font-weight="bold" text-anchor="middle">◄── THANH BIÊN TRÊN (CHỊU NÉN MẠNH) ──►</text>
+
+                            <!-- Các thanh đứng -->
+                            <rect x="145" y="72" width="8" height="113" fill="#38bdf8"/>
+                            <rect x="260" y="72" width="8" height="113" fill="#38bdf8"/>
+                            <rect x="376" y="72" width="8" height="113" fill="#f43f5e"/>
+                            <rect x="492" y="72" width="8" height="113" fill="#38bdf8"/>
+                            <rect x="607" y="72" width="8" height="113" fill="#38bdf8"/>
+
+                            <!-- Các thanh xéo đầu cầu và khoang bên (hướng về tâm chịu tải) -->
+                            <line x1="65" y1="185" x2="149" y2="67" stroke="#fbbf24" stroke-width="8" stroke-linecap="round"/>
+                            <line x1="152" y1="68" x2="262" y2="185" stroke="#fbbf24" stroke-width="6"/>
+                            <line x1="695" y1="185" x2="611" y2="67" stroke="#fbbf24" stroke-width="8" stroke-linecap="round"/>
+                            <line x1="608" y1="68" x2="498" y2="185" stroke="#fbbf24" stroke-width="6"/>
+
+                            <!-- 2 Khoang giữa rộng >= 7cm -->
+                            <rect x="268" y="74" width="108" height="110" fill="#10b981" fill-opacity="0.16" stroke="#10b981" stroke-dasharray="4"/>
+                            <rect x="384" y="74" width="108" height="110" fill="#10b981" fill-opacity="0.16" stroke="#10b981" stroke-dasharray="4"/>
+                            <text x="322" y="125" fill="#6ee7b7" font-size="10" font-weight="bold" text-anchor="middle">KHOANG GIỮA 1</text>
+                            <text x="322" y="140" fill="#6ee7b7" font-size="9" font-family="monospace" text-anchor="middle">(Rộng ≥ 7 cm)</text>
+                            <text x="438" y="125" fill="#6ee7b7" font-size="10" font-weight="bold" text-anchor="middle">KHOANG GIỮA 2</text>
+                            <text x="438" y="140" fill="#6ee7b7" font-size="9" font-family="monospace" text-anchor="middle">(Rộng ≥ 7 cm)</text>
+
+                            <!-- Thanh dầm dọc chính dưới cùng -->
+                            <rect x="55" y="183" width="650" height="12" fill="#f97316" rx="2"/>
+                            <text x="380" y="215" fill="#fdba74" font-size="10" font-family="monospace" font-weight="bold" text-anchor="middle">◄── DẦM DỌC MẶT CẦU (NÊN DÙNG THANH VUÔNG 1×1×60 cm NGUYÊN VẸN) ──►</text>
+                        </svg>
+                    </div>
+                    <div class="lg:col-span-4 space-y-3 text-xs sm:text-sm">
+                        <div class="p-3.5 rounded-2xl bg-blue-950/90 border border-blue-700">
+                            <!-- Đã sửa lỗi chính tả icon fa-compass-drafting (KHẮC PHỤC LỖI #5.1) -->
+                            <h4 class="font-extrabold text-amber-300 mb-1"><i class="fa-solid fa-compass-drafting mr-1"></i> Nguyên tắc Mặt cắt dọc:</h4>
+                            <p class="text-blue-100 text-xs leading-relaxed">
+                                Hai thành giàn hai bên trái - phải của cầu phải được chế tạo <strong>giống hệt nhau (đối xứng gương)</strong>. Đặt que gỗ lên bản vẽ giấy A3 tỷ lệ $1:1$ (có bọc lớp nilon chống dính) để dán hai mặt giàn trùng khít nhau.
+                            </p>
+                        </div>
+                        <div class="p-3.5 rounded-2xl bg-blue-950/90 border border-blue-700">
+                            <h4 class="font-extrabold text-sky-300 mb-1"><i class="fa-solid fa-arrows-to-dot mr-1"></i> Cách bố trí Thanh Đứng & Thanh Xéo:</h4>
+                            <p class="text-blue-100 text-xs leading-relaxed">
+                                • Chính giữa cầu phải có <strong>02 khoang trống $\ge 7\text{ cm}$</strong> để luồn thanh thép treo tải.<br>
+                                • Ở các khoang hai bên, lắp các <strong>thanh xéo</strong> tạo thành hình tam giác vuông để truyền lực từ giữa cầu về hai gối kê.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KHUNG HIỂN THỊ 2: MẶT BẰNG CẦU - THANH TÀ NGANG & THANH XÉO (TOP/PLAN VIEW) -->
+                <div id="view-bang" class="blueprint-view hidden grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <div class="lg:col-span-8 bg-slate-950/90 rounded-2xl p-4 border border-blue-800/80 overflow-x-auto">
+                        <svg viewBox="0 0 760 250" class="w-full min-w-[580px] h-auto">
+                            <text x="380" y="22" fill="#fde047" font-size="11" font-weight="bold" text-anchor="middle">HÌNH CHIẾU BẰNG MẶT CẦU (NHÌN TỪ TRÊN XUỐNG): BỐ TRÍ THANH TÀ NGANG & GIẰNG XÉO</text>
+
+                            <!-- 2 Thanh dầm dọc chính hai bên (Tối đa 2 thanh) -->
+                            <rect x="55" y="45" width="650" height="14" fill="#f97316" rx="2"/>
+                            <text x="380" y="40" fill="#fdba74" font-size="9.5" font-family="monospace" font-weight="bold" text-anchor="middle">DẦM DỌC MẶT CẦU SỐ 1 (1×1×60 cm)</text>
+
+                            <rect x="55" y="190" width="650" height="14" fill="#f97316" rx="2"/>
+                            <text x="380" y="220" fill="#fdba74" font-size="9.5" font-family="monospace" font-weight="bold" text-anchor="middle">DẦM DỌC MẶT CẦU SỐ 2 (1×1×60 cm) — TỐI ĐA 02 DẦM DỌC!</text>
+
+                            <!-- Các thanh Tà ngang (Crossbeams) nối 2 dầm dọc -->
+                            <rect x="75" y="59" width="10" height="131" fill="#38bdf8"/>
+                            <rect x="165" y="59" width="10" height="131" fill="#38bdf8"/>
+                            <rect x="260" y="59" width="10" height="131" fill="#10b981"/>
+                            <rect x="375" y="59" width="12" height="131" fill="#10b981"/>
+                            <rect x="490" y="59" width="10" height="131" fill="#10b981"/>
+                            <rect x="585" y="59" width="10" height="131" fill="#38bdf8"/>
+                            <rect x="675" y="59" width="10" height="131" fill="#38bdf8"/>
+
+                            <!-- Các thanh Giằng xéo (Diagonal bracing) chống xoắn mặt cầu -->
+                            <line x1="85" y1="62" x2="165" y2="188" stroke="#fbbf24" stroke-width="5"/>
+                            <line x1="175" y1="188" x2="260" y2="62" stroke="#fbbf24" stroke-width="5"/>
+                            <line x1="270" y1="62" x2="375" y2="188" stroke="#fbbf24" stroke-width="5"/>
+                            <line x1="387" y1="188" x2="490" y2="62" stroke="#fbbf24" stroke-width="5"/>
+                            <line x1="500" y1="62" x2="585" y2="188" stroke="#fbbf24" stroke-width="5"/>
+                            <line x1="595" y1="188" x2="675" y2="62" stroke="#fbbf24" stroke-width="5"/>
+
+                            <!-- Chú thích khoảng cách lọt lòng >= 4cm -->
+                            <text x="125" y="128" fill="#bae6fd" font-size="9" font-family="monospace" font-weight="bold" text-anchor="middle">≥ 4cm</text>
+                            <text x="322" y="110" fill="#6ee7b7" font-size="9.5" font-weight="bold" text-anchor="middle">KHOANG ĐẶT</text>
+                            <text x="322" y="124" fill="#6ee7b7" font-size="9.5" font-weight="bold" text-anchor="middle">THANH THÉP TẢI</text>
+                            <text x="438" y="110" fill="#6ee7b7" font-size="9.5" font-weight="bold" text-anchor="middle">KHOANG ĐẶT</text>
+                            <text x="438" y="124" fill="#6ee7b7" font-size="9.5" font-weight="bold" text-anchor="middle">THANH THÉP TẢI</text>
+                        </svg>
+                    </div>
+                    <div class="lg:col-span-4 space-y-3 text-xs sm:text-sm">
+                        <div class="p-3.5 rounded-2xl bg-blue-950/90 border border-blue-700">
+                            <h4 class="font-extrabold text-emerald-300 mb-1"><i class="fa-solid fa-grip-lines-vertical mr-1"></i> Thanh Tà Ngang (Màu xanh):</h4>
+                            <p class="text-blue-100 text-xs leading-relaxed">
+                                Là các thanh bắt ngang nối 2 dầm dọc mặt cầu (bề rộng cầu $10 - 20\text{ cm}$). Các thanh tà ngang ở giữa giúp cố định khoảng cách 2 dầm chính và giữ cho xe $10 \times 8 \times 8\text{ cm}$ lăn bánh bên trên. Khoảng lọt lòng giữa 2 thanh tà ngang song song phải $\ge 4\text{ cm}$.
+                            </p>
+                        </div>
+                        <div class="p-3.5 rounded-2xl bg-blue-950/90 border border-blue-700">
+                            <h4 class="font-extrabold text-amber-300 mb-1"><i class="fa-solid fa-slash mr-1"></i> Thanh Giằng Xéo (Màu vàng):</h4>
+                            <p class="text-blue-100 text-xs leading-relaxed">
+                                Thể lệ cho phép <strong>bố trí số lượng thanh xiên và thanh ngang tùy ý</strong> trên mặt cầu. Hãy lắp các thanh xéo dạng chữ Z giữa các thanh tà ngang để mặt cầu không bị vặn xoắn!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KHUNG HIỂN THỊ 3: MẶT CẮT NGANG (CROSS SECTION & CLEARANCE) -->
+                <div id="view-ngang" class="blueprint-view hidden grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <div class="lg:col-span-8 bg-slate-950/90 rounded-2xl p-4 border border-blue-800/80 overflow-x-auto">
+                        <svg viewBox="0 0 760 250" class="w-full min-w-[580px] h-auto">
+                            <text x="380" y="20" fill="#fde047" font-size="11" font-weight="bold" text-anchor="middle">MẶT CẮT NGANG CẦU: KIỂM TRA KHỔ GIỚI HẠN CHO XE 10×8×8 cm CHẠY LỌT LÒNG</text>
+
+                            <!-- Thanh giằng ngang đỉnh cầu (Top strut) -->
+                            <rect x="240" y="38" width="280" height="10" fill="#38bdf8" rx="2"/>
+                            <text x="380" y="33" fill="#7dd3fc" font-size="9.5" font-family="monospace" font-weight="bold" text-anchor="middle">THANH GIẰNG NGANG ĐỈNH GIÀN (CHỐNG ĐỔ NGHIÊNG 2 THÀNH CẦU)</text>
+
+                            <!-- 2 Thành giàn đứng hai bên -->
+                            <rect x="240" y="48" width="12" height="145" fill="#fbbf24"/>
+                            <rect x="508" y="48" width="12" height="145" fill="#fbbf24"/>
+
+                            <!-- 2 Dầm dọc chính dưới đáy (1x1cm) -->
+                            <rect x="236" y="193" width="20" height="20" fill="#f97316" stroke="#fff" stroke-width="1.5"/>
+                            <rect x="504" y="193" width="20" height="20" fill="#f97316" stroke="#fff" stroke-width="1.5"/>
+
+                            <!-- Thanh tà ngang mặt cầu -->
+                            <rect x="240" y="183" width="280" height="10" fill="#10b981"/>
+                            <text x="380" y="210" fill="#6ee7b7" font-size="9.5" font-family="monospace" font-weight="bold" text-anchor="middle">THANH TÀ NGANG MẶT CẦU (ĐẶT TRÊN 2 DẦM DỌC)</text>
+
+                            <!-- Hình chiếc xe 10x8x8cm nhìn chính diện -->
+                            <rect x="305" y="92" width="150" height="88" fill="#10b981" fill-opacity="0.25" stroke="#34d399" stroke-width="2" stroke-dasharray="5,3" rx="6"/>
+                            <text x="380" y="128" fill="#a7f3d0" font-size="11" font-weight="bold" text-anchor="middle">KHỔ XE KIỂM ĐỊNH</text>
+                            <text x="380" y="145" fill="#ffffff" font-size="11" font-family="monospace" font-weight="bold" text-anchor="middle">Rộng 8 cm × Cao 8 cm</text>
+                            <text x="380" y="162" fill="#6ee7b7" font-size="9" text-anchor="middle">(Phải lọt qua dễ dàng!)</text>
+
+                            <!-- Kích thước bề rộng 10-20cm -->
+                            <line x1="236" y1="232" x2="524" y2="232" stroke="#f97316" stroke-width="2"/>
+                            <text x="380" y="245" fill="#fdba74" font-size="10.5" font-family="monospace" font-weight="bold" text-anchor="middle">◄── BỀ RỘNG CẦU: TỪ 10 cm ĐẾN 20 cm (KHUYÊN DÙNG: 11 - 12 cm) ──►</text>
+                        </svg>
+                    </div>
+                    <div class="lg:col-span-4 space-y-3 text-xs sm:text-sm">
+                        <div class="p-3.5 rounded-2xl bg-blue-950/90 border border-blue-700">
+                            <h4 class="font-extrabold text-amber-300 mb-1"><i class="fa-solid fa-ruler-horizontal mr-1"></i> Chọn bề rộng cầu bao nhiêu là tối ưu?</h4>
+                            <p class="text-blue-100 text-xs leading-relaxed">
+                                Xe kiểm định rộng $8\text{ cm}$, quy định bề rộng cầu từ $10 - 20\text{ cm}$. Đội bạn nên thiết kế bề rộng phủ bì khoảng <strong>$11\text{ cm}$ đến $12\text{ cm}$</strong> (lọt lòng trong khoảng $9.5 - 10\text{ cm}$): Vừa đủ cho xe chạy qua thoải mái, vừa tiết kiệm gỗ và giảm độ võng của thanh tà ngang!
+                            </p>
+                        </div>
+                        <div class="p-3.5 rounded-2xl bg-red-950/80 border border-red-500/60">
+                            <h4 class="font-extrabold text-red-300 mb-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Cảnh báo chiều cao thanh giằng đỉnh:</h4>
+                            <p class="text-red-100 text-xs leading-relaxed">
+                                Khi dán các thanh ngang nối đỉnh 2 thành cầu phía trên, phải đảm bảo vị trí thấp nhất của thanh ngang đó cách mặt cầu <strong>lớn hơn $8.5\text{ cm}$</strong> để không quẹt nóc xe kiểm định ($10 \times 8 \times 8\text{ cm}$).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PHẦN B: 4 KỸ THUẬT CẮT GỖ, XOAY TIẾT DIỆN & DÙNG MÙN GỖ + KEO 502 SIÊU CHẮC -->
+            <div class="mb-4">
+                <h3 class="text-xl font-black text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-orange-500"></i> 4 BÍ QUYẾT KỸ THUẬT GIÚP MỐI NỐI & THANH GỖ CHỊU LỰC CỰC ĐẠI
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-600">90% các cây cầu bị sập sớm là do <strong>đặt sai chiều tiết diện thanh gỗ</strong> hoặc <strong>mối nối bị hở, bong keo</strong>. Hãy áp dụng 4 kỹ thuật thực chiến sau:</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Kỹ thuật 1: Cách xoay tiết diện thanh chữ nhật 0.5x1cm (KHẮC PHỤC LỖI #1) -->
+                <div class="bg-white rounded-3xl p-5 shadow-lg border-2 border-indigo-100 flex flex-col justify-between">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-lg bg-indigo-100 text-indigo-800 font-black text-xs">BÍ QUYẾT #1: HƯỚNG XOAY TIẾT DIỆN ($0.5 \times 1\text{ cm}$)</span>
+                        <h4 class="font-extrabold text-slate-900 text-base mt-2 mb-1">Đặt thanh dựng đứng ($h = 1\text{ cm}$) chống uốn gấp đôi!</h4>
+                        <p class="text-xs text-slate-600 mb-3 leading-relaxed">
+                            Theo cơ học kết cấu, độ cứng chống uốn tỉ lệ thuận với <strong>lập phương chiều cao tiết diện</strong> ($I = \frac{b \cdot h^3}{12}$). Với thanh dẹt $0.5 \times 1\text{ cm}$ làm thanh tà ngang hoặc biên trên, nếu đặt <strong>dựng đứng cạnh $1\text{ cm}$</strong> song song với phương lực tải $\vec{P}$, khả năng chống uốn võng sẽ <strong>khỏe gấp $2\text{ lần}$</strong> so với đặt nằm bẹp ($h = 0.5\text{ cm}$)!
+                        </p>
+                    </div>
+                    <div class="bg-slate-950 rounded-2xl p-3 border border-slate-800">
+                        <svg viewBox="0 0 320 125" class="w-full h-36">
+                            <!-- Bên trái: Đặt nằm bẹp -->
+                            <text x="80" y="16" fill="#f87171" font-size="9.5" font-weight="bold" text-anchor="middle">❌ YẾU: Đặt nằm ngang (h = 0.5 cm)</text>
+                            <line x1="80" y1="22" x2="80" y2="46" stroke="#ef4444" stroke-width="2.5"/>
+                            <polygon points="75,44 85,44 80,52" fill="#ef4444"/>
+                            <text x="92" y="36" fill="#fca5a5" font-size="9" font-weight="bold">P</text>
+                            <rect x="45" y="56" width="70" height="28" fill="#f59e0b" stroke="#fff" stroke-width="1.5" rx="2"/>
+                            <text x="80" y="74" fill="#0f172a" font-size="9" font-family="monospace" font-weight="bold" text-anchor="middle">Rộng 1 cm</text>
+                            <text x="122" y="73" fill="#fca5a5" font-size="8.5" font-family="monospace">0.5cm</text>
+                            <text x="80" y="108" fill="#fca5a5" font-size="8.5" text-anchor="middle">Dễ bị uốn cong và gãy võng!</text>
+
+                            <line x1="160" y1="10" x2="160" y2="115" stroke="#334155" stroke-dasharray="3"/>
+
+                            <!-- Bên phải: Đặt dựng đứng -->
+                            <text x="240" y="16" fill="#4ade80" font-size="9.5" font-weight="bold" text-anchor="middle">✅ KHỎE GẤP ĐÔI: Dựng đứng (h = 1 cm)</text>
+                            <line x1="240" y1="20" x2="240" y2="36" stroke="#4ade80" stroke-width="2.5"/>
+                            <polygon points="235,34 245,34 240,42" fill="#4ade80"/>
+                            <text x="252" y="32" fill="#86efac" font-size="9" font-weight="bold">P</text>
+                            <rect x="222" y="44" width="36" height="52" fill="#10b981" stroke="#fff" stroke-width="1.5" rx="2"/>
+                            <text x="240" y="20" fill="#86efac" font-size="8"></text>
+                            <text x="240" y="73" fill="#022c22" font-size="8.5" font-family="monospace" font-weight="bold" text-anchor="middle">0.5cm</text>
+                            <text x="266" y="73" fill="#86efac" font-size="8.5" font-family="monospace" font-weight="bold">Cao 1 cm</text>
+                            <text x="240" y="112" fill="#86efac" font-size="8.5" text-anchor="middle">Chống uốn cực tốt (Khuyên dùng cho tà ngang)</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Kỹ thuật 2: Cắt vát đầu thanh xéo -->
+                <div class="bg-white rounded-3xl p-5 shadow-lg border-2 border-emerald-100 flex flex-col justify-between">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 font-black text-xs">BÍ QUYẾT #2: TĂNG DIỆN TÍCH TIẾP XÚC</span>
+                        <h4 class="font-extrabold text-slate-900 text-base mt-2 mb-1">Cắt vát góc nghiêng đầu thanh xéo</h4>
+                        <p class="text-xs text-slate-600 mb-3 leading-relaxed">
+                            Tuyệt đối không để đầu thanh xéo vuông góc rồi chấm keo vào cạnh nhọn. Hãy <strong>đặt ướm thanh gỗ lên bản vẽ A3</strong>, vạch dấu góc nghiêng rồi dùng cưa và giấy nhám mài vát phẳng để đầu thanh áp khít toàn bộ bề mặt vào thanh dầm.
+                        </p>
+                    </div>
+                    <div class="bg-slate-950 rounded-2xl p-3 border border-slate-800">
+                        <svg viewBox="0 0 320 125" class="w-full h-36">
+                            <!-- Bên trái: Sai -->
+                            <text x="80" y="15" fill="#f87171" font-size="9.5" font-weight="bold" text-anchor="middle">❌ YẾU: Để đầu vuông góc</text>
+                            <rect x="20" y="88" width="120" height="14" fill="#475569" rx="2"/>
+                            <g transform="translate(75, 88) rotate(-45)">
+                                <rect x="0" y="-14" width="60" height="14" fill="#f59e0b"/>
+                            </g>
+                            <circle cx="75" cy="88" r="6" fill="none" stroke="#ef4444" stroke-width="2"/>
+                            <text x="80" y="116" fill="#fca5a5" font-size="8.5" text-anchor="middle">Chỉ chạm 1 điểm nhọn ➔ Rất dễ bung!</text>
+
+                            <line x1="160" y1="10" x2="160" y2="115" stroke="#334155" stroke-dasharray="3"/>
+
+                            <!-- Bên phải: Đúng -->
+                            <text x="240" y="15" fill="#4ade80" font-size="9.5" font-weight="bold" text-anchor="middle">✅ CHẮC: Cắt vát phẳng khít</text>
+                            <rect x="180" y="88" width="120" height="14" fill="#475569" rx="2"/>
+                            <polygon points="210,88 238,88 278,48 258,41" fill="#10b981"/>
+                            <line x1="210" y1="88" x2="238" y2="88" stroke="#38bdf8" stroke-width="3.5"/>
+                            <text x="240" y="116" fill="#86efac" font-size="8.5" text-anchor="middle">Tiếp xúc toàn bề mặt ➔ Chịu nén cực cao!</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Kỹ thuật 3: Ghép đồng phẳng + 1 bản ốp (Không quá 2 lớp) -->
+                <div class="bg-white rounded-3xl p-5 shadow-lg border-2 border-sky-100 flex flex-col justify-between">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-lg bg-blue-100 text-blue-800 font-black text-xs">BÍ QUYẾT #3: KHÓA CỨNG NÚT GIÀN ĐÚNG LUẬT</span>
+                        <h4 class="font-extrabold text-slate-900 text-base mt-2 mb-1">Ghép đồng phẳng hoặc ốp hông ($\le 02\text{ lớp}$)</h4>
+                        <p class="text-xs text-slate-600 mb-3 leading-relaxed">
+                            Đặt thanh đứng và thanh xéo <strong>cùng nằm trên 1 mặt phẳng (Lớp 2)</strong>, sau đó dán ốp vào mặt bên của thanh dầm dọc (Lớp 1). Cách này giúp diện tích dán keo rộng tối đa mà vẫn tuân thủ nghiêm ngặt quy định <strong>không đè quá $02$ thanh</strong>!
+                        </p>
+                    </div>
+                    <div class="bg-slate-950 rounded-2xl p-3 border border-slate-800">
+                        <svg viewBox="0 0 320 125" class="w-full h-36">
+                            <text x="160" y="16" fill="#38bdf8" font-size="9.5" font-weight="bold" text-anchor="middle">CẤU TẠO NÚT GIÀN ĐÚNG LUẬT (TỐI ĐA 2 LỚP)</text>
+                            <!-- Dầm ngang (Lớp 1) -->
+                            <rect x="40" y="82" width="240" height="18" fill="#f97316" rx="2"/>
+                            <text x="225" y="94" fill="#fff" font-size="8.5" font-weight="bold">Lớp 1 (Dầm chính)</text>
+
+                            <!-- Thanh đứng và thanh xiên cùng nằm ở Lớp 2 dán ốp lên Lớp 1 -->
+                            <rect x="115" y="28" width="16" height="70" fill="#10b981" fill-opacity="0.9" stroke="#fff" stroke-width="1"/>
+                            <polygon points="131,98 148,98 195,32 178,32" fill="#38bdf8" fill-opacity="0.9" stroke="#fff" stroke-width="1"/>
+
+                            <text x="105" y="55" fill="#86efac" font-size="8.5" font-weight="bold" text-anchor="end">Lớp 2 (Thanh đứng)</text>
+                            <text x="195" y="65" fill="#7dd3fc" font-size="8.5" font-weight="bold">Lớp 2 (Thanh xéo)</text>
+                            <text x="160" y="115" fill="#fde047" font-size="8.5" font-family="monospace" text-anchor="middle">Hai thanh cùng dán lên Lớp 1 ➔ Không vượt quá 2 lớp!</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Kỹ thuật 4 (BỔ SUNG THEO YÊU CẦU): TUYỆT CHIÊU DÙNG MÙN GỖ + KEO 502 -->
+                <div class="bg-gradient-to-br from-amber-50 via-white to-orange-50 rounded-3xl p-5 shadow-lg border-2 border-amber-400 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 font-black text-xs">🔥 BÍ QUYẾT #4: TUYỆT CHIÊU "BÊ TÔNG GỖ"</span>
+                            <span class="text-[11px] font-mono font-bold text-amber-800 bg-amber-200/70 px-2 py-0.5 rounded">Mùn gỗ + Keo 502</span>
+                        </div>
+                        <h4 class="font-extrabold text-slate-900 text-base mt-2 mb-1">Gia cường mối nối bằng Mùn gỗ (Bột nhám) + Keo 502</h4>
+                        <p class="text-xs text-slate-700 mb-3 leading-relaxed">
+                            Keo 502 bản chất rất lỏng: nếu vết cắt gỗ bị hở khe dù chỉ $0.5\text{ mm}$, keo sẽ thấm hút hết vào thớ gỗ mà không kết dính được. Hãy thu gom <strong>bột gỗ mịn (khi chà nhám/cưa)</strong> để tạo hợp chất <strong>"composite gỗ - keo"</strong> lấp đầy khe hở và tạo góc lượn chữ T cứng như đá:
+                        </p>
+                    </div>
+                    <div class="bg-slate-950 rounded-2xl p-3 border border-amber-500/50">
+                        <svg viewBox="0 0 320 128" class="w-full h-36">
+                            <text x="160" y="15" fill="#fde047" font-size="9.5" font-weight="bold" text-anchor="middle">QUY TRÌNH 3 BƯỚC ĐẮP "MÙN GỖ + KEO 502" TẠI NÚT GIÀN</text>
+
+                            <!-- Bước 1: Định vị tạm -->
+                            <rect x="10" y="25" width="94" height="72" fill="#1e293b" rx="6" stroke="#475569"/>
+                            <text x="57" y="40" fill="#38bdf8" font-size="8.5" font-weight="bold" text-anchor="middle">1. ĐỊNH VỊ MỐI NỐI</text>
+                            <rect x="25" y="75" width="64" height="8" fill="#f97316"/>
+                            <rect x="52" y="46" width="10" height="29" fill="#10b981"/>
+                            <text x="57" y="92" fill="#cbd5e1" font-size="7.5" text-anchor="middle">Chấm 1 giọt keo giữ tạm</text>
+
+                            <!-- Bước 2: Rắc mùn gỗ mịn vào khe hở & góc -->
+                            <rect x="113" y="25" width="94" height="72" fill="#1e293b" rx="6" stroke="#fbbf24"/>
+                            <text x="160" y="40" fill="#fbbf24" font-size="8.5" font-weight="bold" text-anchor="middle">2. CHÈN MÙN GỖ MỊN</text>
+                            <rect x="128" y="75" width="64" height="8" fill="#f97316"/>
+                            <rect x="155" y="46" width="10" height="29" fill="#10b981"/>
+                            <!-- Bột gỗ đắp góc 2 bên (Fillet) -->
+                            <polygon points="146,75 155,75 155,66" fill="#fde047"/>
+                            <polygon points="165,75 174,75 165,66" fill="#fde047"/>
+                            <text x="160" y="92" fill="#fef08a" font-size="7.5" text-anchor="middle">Nhét bột gỗ vào khe/góc</text>
+
+                            <!-- Bước 3: Nhỏ keo 502 thấm vào mùn gỗ -->
+                            <rect x="216" y="25" width="94" height="72" fill="#1e293b" rx="6" stroke="#10b981"/>
+                            <text x="263" y="40" fill="#4ade80" font-size="8.5" font-weight="bold" text-anchor="middle">3. NHỎ KEO KẾT TỦA</text>
+                            <rect x="231" y="75" width="64" height="8" fill="#f97316"/>
+                            <rect x="258" y="46" width="10" height="29" fill="#10b981"/>
+                            <polygon points="248,75 258,75 258,64" fill="#38bdf8"/>
+                            <polygon points="268,75 278,75 268,64" fill="#38bdf8"/>
+                            <text x="263" y="92" fill="#86efac" font-size="7.5" text-anchor="middle">Nhỏ 1-2 giọt keo ➔ Hóa đá!</text>
+
+                            <text x="160" y="116" fill="#fca5a5" font-size="8" font-family="monospace" text-anchor="middle">⚠️ Dùng đầu que tăm/gỗ vụn gạt mùn cưa (TUYỆT ĐỐI KHÔNG DÙNG NGÓN TAY!)</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             TRANG 6: NGUYÊN LÝ VẬT LÝ, CÂU HỎI ÔN TẬP & GIẢI THƯỞNG
+             ========================================== -->
+        <section id="page-6" class="page-slide">
+            <div class="mb-6">
+                <span class="text-xs font-extrabold uppercase tracking-wider text-amber-700 bg-amber-100 px-3 py-1 rounded-full">Trang 6 / 7 • Kiến thức STEM & Tiêu chí chấm điểm</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mt-2">NGUYÊN LÝ CƠ HỌC & CƠ CẤU GIẢI THƯỞNG</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Cột trái: Kiến thức Vật lý & Câu hỏi trắc nghiệm -->
+                <div class="lg:col-span-7 space-y-6">
+                    <!-- Góc Vật lý -->
+                    <div class="bg-white rounded-3xl p-6 shadow-lg border border-slate-200 space-y-3">
+                        <h3 class="text-lg font-extrabold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-atom text-blue-600"></i> Phân Tích Cơ Học Kết Cấu Cầu Giàn
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                            Để mô hình cầu đạt trạng thái cân bằng tĩnh học ($\sum \vec{F} = \vec{0}$ và $\sum M = 0$) dưới tác dụng của tải trọng $\vec{P}$ treo tại $02$ khoang giữa và phản lực $\vec{N}_1, \vec{N}_2$ tại hai gối tựa:
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                            <div class="p-3.5 rounded-2xl bg-orange-50 border border-orange-200">
+                                <div class="font-bold text-orange-900 mb-1">1. Phân bố Lực Nén & Lực Kéo</div>
+                                <p class="text-orange-800/90 leading-relaxed">
+                                    Khi chịu tải ở giữa nhịp, <strong>thanh biên trên</strong> chịu <strong>lực nén</strong> ($F_{\text{nén}}$), còn <strong>dầm mặt cầu bên dưới</strong> chịu <strong>lực kéo</strong> ($F_{\text{kéo}}$). Kết cấu chia thành các <strong>ô tam giác</strong> giúp truyền lực dọc trục và chống biến dạng góc.
+                                </p>
+                            </div>
+                            <div class="p-3.5 rounded-2xl bg-blue-50 border border-blue-200">
+                                <div class="font-bold text-blue-900 mb-1">2. Tối ưu hóa Khối lượng mô hình ($m_{\text{cầu}}$)</div>
+                                <p class="text-blue-800/90 leading-relaxed">
+                                    Khi hai đội có cùng tải trọng cực đại $P_{\text{max}}$, thứ hạng được phân định bằng tiêu chí phụ: <strong>Mô hình có khối lượng $m_{\text{cầu}}$ nhẹ hơn sẽ xếp hạng cao hơn</strong> (tối ưu hiệu suất $\eta = \frac{P_{\text{max}}}{m_{\text{cầu}}}$).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mini-game Trắc nghiệm -->
+                    <div class="bg-white rounded-3xl p-6 shadow-lg border border-slate-200 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 rounded-lg bg-purple-100 text-purple-800 font-black text-xs">
+                                <i class="fa-solid fa-clipboard-question mr-1"></i> TỰ KIỂM TRA NẮM VỮNG THỂ LỆ
+                            </span>
+                            <span id="quiz-score" class="font-mono text-xs font-bold text-slate-500">Hoàn thành: 0/3</span>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                                <p class="text-xs sm:text-sm font-bold text-slate-800 mb-2">
+                                    Câu 1: Hai đội cùng đạt mức chịu tải tối đa $P_{\text{max}} = 28\text{ kg}$. Trước khi thử tải, cầu Đội 1 cân nặng $m_1 = 82\text{ g}$, cầu Đội 2 cân nặng $m_2 = 74\text{ g}$. Đội nào xếp hạng cao hơn?
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <button onclick="answerQuiz(1, false, this)" class="px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold hover:bg-slate-100 transition">Đội 1 ($82\text{ g}$)</button>
+                                    <button onclick="answerQuiz(1, true, this)" class="px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold hover:bg-slate-100 transition">Đội 2 ($74\text{ g}$ - khối lượng nhẹ hơn)</button>
+                                </div>
+                                <p id="quiz-feedback-1" class="hidden text-xs mt-2"></p>
+                            </div>
+
+                            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                                <p class="text-xs sm:text-sm font-bold text-slate-800 mb-2">
+                                    Câu 2: Số lượng thanh dầm dọc trên mặt cầu được quy định như thế nào?
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <button onclick="answerQuiz(2, true, this)" class="px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold hover:bg-slate-100 transition">Không nhiều hơn $02$ thanh ($\le 02$ thanh)</button>
+                                    <button onclick="answerQuiz(2, false, this)" class="px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold hover:bg-slate-100 transition">Bố trí tùy ý không giới hạn</button>
+                                </div>
+                                <p id="quiz-feedback-2" class="hidden text-xs mt-2"></p>
+                            </div>
+
+                            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                                <p class="text-xs sm:text-sm font-bold text-slate-800 mb-2">
+                                    Câu 3: Hai khoang giàn ở giữa cầu phải có bề rộng tối thiểu bao nhiêu để BTC treo $02$ thanh thép gắn tải trọng?
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <button onclick="answerQuiz(3, false, this)" class="px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold hover:bg-slate-100 transition">Tối thiểu $4\text{ cm}$ mỗi khoang</button>
+                                    <button onclick="answerQuiz(3, true, this)" class="px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold hover:bg-slate-100 transition">Tối thiểu $7\text{ cm}$ mỗi khoang</button>
+                                </div>
+                                <p id="quiz-feedback-3" class="hidden text-xs mt-2"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cột phải: Cơ cấu giải thưởng -->
+                <div class="lg:col-span-5 bg-slate-900 text-white rounded-3xl p-6 sm:p-7 shadow-xl border border-slate-700 flex flex-col justify-between">
+                    <div>
+                        <span class="px-3 py-1 rounded-lg bg-amber-400/20 text-amber-300 font-bold text-xs">
+                            <i class="fa-solid fa-trophy mr-1"></i> KHEN THƯỞNG MỖI BẢNG THI (BẢNG A & BẢNG B)
+                        </span>
+                        <h3 class="text-xl font-black mt-3 mb-4">Cơ Cấu Giải Thưởng</h3>
+                        <p class="text-xs text-slate-300 mb-4">Giải thưởng được trao riêng cho <strong>Bảng A (Khối 7, 8)</strong> và <strong>Bảng B (Khối 10, 11)</strong>:</p>
+
+                        <div class="space-y-3">
+                            <div class="p-3.5 rounded-2xl bg-gradient-to-r from-amber-500/20 to-yellow-500/10 border border-amber-400/40 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-2xl">🥇</span>
+                                    <div>
+                                        <div class="font-extrabold text-amber-300 text-sm">01 Giải Nhất</div>
+                                        <div class="text-xs text-slate-300">Gồm quà và giấy khen Ban Tổ chức</div>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-mono font-bold bg-amber-400 text-slate-950 px-2.5 py-1 rounded">Hạng I</span>
+                            </div>
+
+                            <div class="p-3.5 rounded-2xl bg-slate-800 border border-slate-600 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-2xl">🥈</span>
+                                    <div>
+                                        <div class="font-extrabold text-slate-200 text-sm">01 Giải Nhì</div>
+                                        <div class="text-xs text-slate-400">Gồm quà và giấy khen Ban Tổ chức</div>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-mono font-bold bg-slate-300 text-slate-900 px-2.5 py-1 rounded">Hạng II</span>
+                            </div>
+
+                            <div class="p-3.5 rounded-2xl bg-slate-800 border border-orange-500/40 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-2xl">🥉</span>
+                                    <div>
+                                        <div class="font-extrabold text-orange-300 text-sm">02 Giải Ba</div>
+                                        <div class="text-xs text-slate-400">Gồm quà và giấy khen Ban Tổ chức</div>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-mono font-bold bg-orange-500/20 text-orange-300 px-2.5 py-1 rounded">Hạng III</span>
+                            </div>
+
+                            <div class="p-3.5 rounded-2xl bg-blue-950/80 border border-sky-500/40 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-2xl">🎨</span>
+                                    <div>
+                                        <div class="font-extrabold text-sky-300 text-sm">01 Giải Cầu Có Thiết Kế Đẹp Nhất</div>
+                                        <div class="text-xs text-blue-200">Gồm quà và giấy khen Ban Tổ chức</div>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-mono font-bold bg-sky-400 text-slate-950 px-2.5 py-1 rounded">Thẩm mỹ</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 p-3.5 rounded-2xl bg-slate-800/90 border border-slate-600 text-xs text-slate-300 leading-relaxed">
+                        <strong class="text-amber-300">Giáo viên hướng dẫn & hỗ trợ chuyên môn:</strong><br>
+                        Cô Trần Thị Dung (TTCM Vật Lí), Thầy Nguyễn Văn Mạnh (TPCM Vật Lí), Cô Dương Thị Thu Hằng (TTCM Công Nghệ) cùng các thầy cô trong tổ Vật Lí - Công Nghệ.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             TRANG 7: ĐỒNG HỒ BẤM GIỜ LUYỆN TẬP 60 PHÚT (CHUẨN THỜI GIAN THỰC + ÂM BÁO)
+             ========================================== -->
+        <section id="page-7" class="page-slide">
+            <div class="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+                <div>
+                    <span class="text-xs font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">Trang 7 / 7 • Rèn kỹ năng làm việc nhóm</span>
+                    <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mt-2">ĐỒNG HỒ BẤM GIỜ THI ĐẤU ($60\text{ PHÚT}$)</h2>
+                </div>
+                <p class="text-xs text-slate-500">Tích hợp bộ đếm thời gian thực chống trôi giây khi chuyển tab & chuông báo chuyển giai đoạn.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <!-- Đồng hồ lớn -->
+                <div class="lg:col-span-7 bg-blueprint text-white rounded-3xl p-6 sm:p-10 shadow-2xl border-2 border-orange-500 text-center">
+                    <span class="px-3 py-1 rounded-full bg-orange-500/20 border border-orange-400/40 text-orange-300 text-xs font-bold uppercase">
+                        <i class="fa-solid fa-stopwatch mr-1"></i> Thời gian thi đấu trực tiếp tại sân trường
+                    </span>
+
+                    <div class="my-6 py-7 px-4 rounded-3xl bg-slate-950/90 border-2 border-blue-800 shadow-inner">
+                        <div id="timer-display" class="font-mono text-6xl sm:text-8xl font-black tracking-wider text-amber-400">
+                            60:00
+                        </div>
+                        <div id="timer-phase" class="text-xs sm:text-sm font-mono text-blue-300 mt-3 uppercase tracking-widest font-bold">
+                            Sẵn sàng bấm giờ chế tạo (60 phút)
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap justify-center gap-3">
+                        <button onclick="toggleTimer()" class="px-7 py-4 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 text-slate-950 font-black text-sm sm:text-base shadow-lg hover:brightness-110 transition flex items-center gap-2">
+                            <i class="fa-solid fa-play" id="icon-play"></i> <span id="text-play">Bắt đầu bấm giờ</span>
+                        </button>
+                        <button onclick="resetTimer()" class="px-5 py-4 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm sm:text-base border border-slate-600 transition flex items-center gap-2">
+                            <i class="fa-solid fa-rotate-left"></i> Đặt lại 60:00
+                        </button>
+                        <button onclick="playBeep(880, 0.25, 2)" class="px-4 py-4 rounded-2xl bg-blue-900/70 hover:bg-blue-800 text-blue-200 font-bold text-xs sm:text-sm border border-blue-600/50 transition flex items-center gap-1.5" title="Kiểm tra loa báo hiệu">
+                            <i class="fa-solid fa-volume-high"></i> Thử chuông
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quy trình phân bổ 60 phút -->
+                <div class="lg:col-span-5 bg-white rounded-3xl p-6 sm:p-7 shadow-xl border border-slate-200 space-y-4">
+                    <h3 class="text-lg font-black text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-people-group text-orange-500"></i> Gợi Ý Phân Công Nhiệm Vụ Trong $60\text{ Phút}$
+                    </h3>
+                    <p class="text-xs text-slate-600">Đồng hồ sẽ tự động phát tiếng <strong>"Bíp"</strong> nhắc nhở khi chuyển qua từng giai đoạn quan trọng:</p>
+
+                    <div class="space-y-3 text-xs sm:text-sm">
+                        <div id="stage-card-1" class="p-3.5 rounded-2xl bg-blue-50 border-2 border-blue-200 transition-all">
+                            <div class="font-extrabold text-blue-900">⏱️ Giai đoạn 1 (Phút $60:00 \rightarrow 45:00$): Gia công cấu kiện</div>
+                            <p class="text-xs text-blue-800/80 mt-0.5">Trải bản vẽ A3 (bọc nilon); đo đánh dấu và cưa các thanh đứng, thanh xiên; dùng giấy nhám mài vát phẳng và <strong>thu gom mùn gỗ mịn</strong>.</p>
+                        </div>
+
+                        <div id="stage-card-2" class="p-3.5 rounded-2xl bg-amber-50 border-2 border-amber-200 transition-all">
+                            <div class="font-extrabold text-amber-900">⏱️ Giai đoạn 2 (Phút $45:00 \rightarrow 15:00$): Lắp ghép hai giàn chủ</div>
+                            <p class="text-xs text-amber-800/80 mt-0.5">Ghép $02$ mặt giàn bên đối xứng nhau; kiểm tra kỹ $02$ khoang giữa rộng $\ge 7\text{ cm}$, lọt lòng $\ge 4\text{ cm}$ và gia cố nút giàn bằng <strong>mùn gỗ + keo 502</strong>.</p>
+                        </div>
+
+                        <div id="stage-card-3" class="p-3.5 rounded-2xl bg-emerald-50 border-2 border-emerald-200 transition-all">
+                            <div class="font-extrabold text-emerald-900">⏱️ Giai đoạn 3 (Phút $15:00 \rightarrow 00:00$): Tổ hợp không gian & Nghiệm thu</div>
+                            <p class="text-xs text-emerald-800/80 mt-0.5">Liên kết 2 mặt giàn với mặt cầu ($\le 02$ dầm dọc, thanh tà ngang dựng đứng cạnh $1\text{ cm}$), kiểm tra thông xe $10 \times 8 \times 8\text{ cm}$ và nộp sản phẩm.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- THANH ĐIỀU HƯỚNG DƯỚI CÙNG (TIẾN / LÙI TRANG) -->
+    <footer class="sticky bottom-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 py-3 px-4 sm:px-6 shadow-lg">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            <button id="btn-prev" onclick="changePage(-1)" class="px-4 sm:px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition flex items-center gap-2 disabled:opacity-40 disabled:pointer-events-none">
+                <i class="fa-solid fa-chevron-left"></i> Trang trước
+            </button>
+
+            <div class="flex items-center gap-2" id="page-dots">
+                <button onclick="goToPage(1)" class="w-2.5 h-2.5 rounded-full transition-all"></button>
+                <button onclick="goToPage(2)" class="w-2.5 h-2.5 rounded-full transition-all"></button>
+                <button onclick="goToPage(3)" class="w-2.5 h-2.5 rounded-full transition-all"></button>
+                <button onclick="goToPage(4)" class="w-2.5 h-2.5 rounded-full transition-all"></button>
+                <button onclick="goToPage(5)" class="w-2.5 h-2.5 rounded-full transition-all"></button>
+                <button onclick="goToPage(6)" class="w-2.5 h-2.5 rounded-full transition-all"></button>
+                <button onclick="goToPage(7)" class="w-2.5 h-2.5 rounded-full transition-all"></button>
+            </div>
+
+            <button id="btn-next" onclick="changePage(1)" class="px-5 sm:px-6 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-slate-950 font-black text-xs sm:text-sm shadow hover:brightness-110 transition flex items-center gap-2 disabled:opacity-40 disabled:pointer-events-none">
+                Trang tiếp theo <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT XỬ LÝ TƯƠNG TÁC & RENDER CÔNG THỨC KATEX -->
+    <script>
+        let currentPage = 1;
+        const totalPages = 7;
+
+        // Render công thức Toán - Lý bằng KaTeX
+        function triggerMathRender() {
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        // 1. ĐIỀU HƯỚNG TỪNG TRANG
+        function goToPage(pageNum) {
+            if (pageNum < 1 || pageNum > totalPages) return;
+            currentPage = pageNum;
+
+            for (let i = 1; i <= totalPages; i++) {
+                const el = document.getElementById(`page-${i}`);
+                if (i === currentPage) {
+                    el.classList.add('active');
+                } else {
+                    el.classList.remove('active');
+                }
+            }
+
+            const percent = (currentPage / totalPages) * 100;
+            document.getElementById('top-progress-bar').style.width = `${percent}%`;
+            document.getElementById('mobile-page-indicator').innerText = `Trang ${currentPage} / ${totalPages}`;
+
+            const tabs = document.querySelectorAll('#desktop-nav .nav-tab');
+            tabs.forEach((tab, idx) => {
+                const badge = tab.querySelector('span');
+                if (idx + 1 === currentPage) {
+                    tab.className = "nav-tab px-2.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-1.5 bg-orange-500 text-slate-950 shadow";
+                    badge.className = "w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-mono bg-slate-950 text-orange-400";
+                } else {
+                    tab.className = "nav-tab px-2.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 text-slate-300 hover:bg-slate-800 hover:text-white";
+                    badge.className = "w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-mono bg-slate-800 text-slate-300";
+                }
+            });
+
+            const dots = document.querySelectorAll('#page-dots button');
+            dots.forEach((dot, idx) => {
+                if (idx + 1 === currentPage) {
+                    dot.className = "w-7 h-2.5 rounded-full bg-orange-500 transition-all";
+                } else {
+                    dot.className = "w-2.5 h-2.5 rounded-full bg-slate-300 hover:bg-slate-400 transition-all";
+                }
+            });
+
+            document.getElementById('btn-prev').disabled = (currentPage === 1);
+            document.getElementById('btn-next').disabled = (currentPage === totalPages);
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function changePage(delta) {
+            goToPage(currentPage + delta);
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT') return;
+            if (e.key === 'ArrowRight') changePage(1);
+            if (e.key === 'ArrowLeft') changePage(-1);
+        });
+
+        // 2. CHECKLIST DỤNG CỤ (TRANG 2 - 8 MỤC)
+        function saveTools() {
+            const cbs = document.querySelectorAll('.tool-cb');
+            let count = 0;
+            const arr = [];
+            cbs.forEach(cb => {
+                if (cb.checked) count++;
+                arr.push(cb.checked);
+            });
+            document.getElementById('checklist-status').innerText = `${count} / ${cbs.length} mục`;
+            document.getElementById('checklist-bar').style.width = `${Math.round((count / cbs.length) * 100)}%`;
+            localStorage.setItem('ductri_tools_v4', JSON.stringify(arr));
+        }
+
+        function loadTools() {
+            const saved = localStorage.getItem('ductri_tools_v4');
+            if (saved) {
+                const arr = JSON.parse(saved);
+                document.querySelectorAll('.tool-cb').forEach((cb, i) => {
+                    if (arr[i] !== undefined) cb.checked = arr[i];
+                });
+            }
+            saveTools();
+        }
+
+        function resetTools() {
+            document.querySelectorAll('.tool-cb').forEach(cb => cb.checked = false);
+            saveTools();
+        }
+
+        // 3. TRẠM KIỂM ĐỊNH THÔNG SỐ & CHẠY XE (TRANG 3)
+        let carMoving = false;
+        function toggleCarDrive() {
+            const car = document.getElementById('svg-test-car');
+            const btn = document.getElementById('btn-drive-car');
+            carMoving = !carMoving;
+            if (carMoving) {
+                car.classList.add('car-driving');
+                btn.innerHTML = '<i class="fa-solid fa-stop"></i> Dừng mô phỏng xe kiểm định';
+                btn.classList.replace('bg-emerald-600', 'bg-amber-600');
+            } else {
+                car.classList.remove('car-driving');
+                btn.innerHTML = '<i class="fa-solid fa-car-side"></i> Mô phỏng xe kiểm định (10 × 8 × 8 cm) qua cầu';
+                btn.classList.replace('bg-amber-600', 'bg-emerald-600');
+            }
+        }
+
+        function updateCardUI(cardId, badgeId, ok, errText) {
+            const card = document.getElementById(cardId);
+            const badge = document.getElementById(badgeId);
+            if (ok) {
+                card.className = "p-3.5 rounded-2xl bg-slate-50 border border-slate-200 transition";
+                badge.className = "text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-700";
+                badge.innerText = "✓ ĐẠT";
+            } else {
+                card.className = "p-3.5 rounded-2xl bg-red-50 border-2 border-red-400 transition";
+                badge.className = "text-[11px] font-bold px-2 py-0.5 rounded bg-red-600 text-white animate-pulse";
+                badge.innerText = "✗ " + errText;
+            }
+        }
+
+        function checkSpecs() {
+            const l = parseFloat(document.getElementById('input-length').value);
+            const w = parseFloat(document.getElementById('input-width').value);
+            const h = parseFloat(document.getElementById('input-height').value);
+            const b = parseFloat(document.getElementById('input-bay').value);
+            const g = parseFloat(document.getElementById('input-gap').value);
+            const s = parseFloat(document.getElementById('input-support').value);
+
+            document.getElementById('val-length').innerText = `${l} cm`;
+            document.getElementById('val-width').innerText = `${w} cm`;
+            document.getElementById('val-height').innerText = `${h} cm`;
+            document.getElementById('val-bay').innerText = `${b} cm`;
+            document.getElementById('val-gap').innerText = `${g} cm`;
+            document.getElementById('val-support').innerText = `${s} cm`;
+
+            document.getElementById('svg-label-length').innerText = `Chiều dài: ${l} cm (50 - 60 cm)`;
+            document.getElementById('svg-label-height').innerText = `Cao: ${h} cm (≤ 35 cm)`;
+
+            const okL = (l >= 50 && l <= 60);
+            const okW = (w >= 10 && w <= 20);
+            const okH = (h <= 35);
+            const okB = (b >= 7);
+            const okG = (g >= 4);
+            const okS = (s >= 4);
+
+            updateCardUI('card-length', 'badge-length', okL, l < 50 ? "NGẮN (< 50 cm)" : "DÀI (> 60 cm)");
+            updateCardUI('card-width', 'badge-width', okW, w < 10 ? "HẸP (< 10 cm)" : "RỘNG (> 20 cm)");
+            updateCardUI('card-height', 'badge-height', okH, "CAO (> 35 cm)");
+            updateCardUI('card-bay', 'badge-bay', okB, "HẸP (< 7 cm)");
+            updateCardUI('card-gap', 'badge-gap', okG, "KHÍT (< 4 cm)");
+            updateCardUI('card-support', 'badge-support', okS, "NGẮN (< 4 cm)");
+
+            const allOk = okL && okW && okH && okB && okG && okS;
+            const box = document.getElementById('spec-summary-box');
+            const icon = document.getElementById('spec-icon');
+            const sub = document.getElementById('spec-sub');
+            const title = document.getElementById('spec-title');
+            const desc = document.getElementById('spec-desc');
+
+            if (allOk) {
+                box.className = "lg:col-span-4 rounded-3xl p-6 shadow-xl border-2 bg-emerald-950 text-white border-emerald-500 transition-all space-y-4";
+                icon.className = "w-11 h-11 rounded-2xl bg-emerald-500 text-slate-950 flex items-center justify-center text-xl font-black shrink-0";
+                icon.innerHTML = '<i class="fa-solid fa-check-double"></i>';
+                sub.className = "text-xs font-mono uppercase text-emerald-300";
+                sub.innerText = "Đánh giá thông số";
+                title.innerText = "ĐẠT CHUẨN KỸ THUẬT!";
+                desc.innerText = "Toàn bộ 6 thông số kích thước của bản vẽ đều thỏa mãn điều kiện biên của Ban Tổ chức.";
+            } else {
+                box.className = "lg:col-span-4 rounded-3xl p-6 shadow-xl border-2 bg-red-950 text-white border-red-500 transition-all space-y-4";
+                icon.className = "w-11 h-11 rounded-2xl bg-red-500 text-white flex items-center justify-center text-xl font-black shrink-0 animate-bounce";
+                icon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                sub.className = "text-xs font-mono uppercase text-red-300";
+                sub.innerText = "Cảnh báo sai lệch";
+                title.innerText = "CHƯA ĐẠT QUY CHUẨN!";
+                desc.innerText = "Có thông số đang vượt ra ngoài khoảng quy định. Hãy điều chỉnh lại thanh trượt màu đỏ trước khi gia công gỗ.";
+            }
+        }
+
+        // 4. CHUYỂN ĐỔI HÌNH MINH HỌA CẤM / ĐÚNG LUẬT (TRANG 4)
+        function setVisualMode(mode) {
+            const wrongs = document.querySelectorAll('.svg-wrong');
+            const rights = document.querySelectorAll('.svg-right');
+            const badges = document.querySelectorAll('.mode-badge');
+            const btnWrong = document.getElementById('btn-mode-wrong');
+            const btnRight = document.getElementById('btn-mode-right');
+
+            if (mode === 'wrong') {
+                wrongs.forEach(el => el.classList.remove('hidden'));
+                rights.forEach(el => el.classList.add('hidden'));
+                badges.forEach(b => {
+                    b.className = "mode-badge text-xs font-bold text-red-600";
+                    b.innerText = "🚫 Đang hiển thị: SAI QUY CHẾ";
+                });
+                btnWrong.className = "px-4 py-2 rounded-xl text-xs font-black transition bg-red-600 text-white shadow";
+                btnRight.className = "px-4 py-2 rounded-xl text-xs font-black transition text-slate-700 hover:text-slate-950";
+            } else {
+                wrongs.forEach(el => el.classList.add('hidden'));
+                rights.forEach(el => el.classList.remove('hidden'));
+                badges.forEach(b => {
+                    b.className = "mode-badge text-xs font-bold text-emerald-600";
+                    b.innerText = "✅ Đang hiển thị: ĐÚNG QUY CHẾ";
+                });
+                btnRight.className = "px-4 py-2 rounded-xl text-xs font-black transition bg-emerald-600 text-white shadow";
+                btnWrong.className = "px-4 py-2 rounded-xl text-xs font-black transition text-slate-700 hover:text-slate-950";
+            }
+        }
+
+        // 5. CHUYỂN ĐỔI TAB MẶT CẮT DỌC / MẶT BẰNG / MẶT CẮT NGANG (TRANG 5)
+        function switchBlueprintTab(tabName) {
+            const views = ['doc', 'bang', 'ngang'];
+            views.forEach(v => {
+                const viewEl = document.getElementById(`view-${v}`);
+                const btnEl = document.getElementById(`tab-btn-${v}`);
+                if (v === tabName) {
+                    viewEl.classList.remove('hidden');
+                    btnEl.className = "px-4 py-2 rounded-xl text-xs font-black transition bg-orange-500 text-slate-950 shadow";
+                } else {
+                    viewEl.classList.add('hidden');
+                    btnEl.className = "px-4 py-2 rounded-xl text-xs font-black transition bg-slate-800 text-blue-200 hover:bg-slate-700 border border-blue-700";
+                }
+            });
+        }
+
+        // 6. TRẮC NGHIỆM ÔN TẬP (TRANG 6)
+        const quizState = { 1: false, 2: false, 3: false };
+        function answerQuiz(qNum, isCorrect, btnEl) {
+            const fb = document.getElementById(`quiz-feedback-${qNum}`);
+            fb.classList.remove('hidden');
+
+            if (isCorrect) {
+                quizState[qNum] = true;
+                btnEl.className = "px-3 py-1.5 rounded-xl border-2 border-emerald-600 bg-emerald-600 text-white text-xs font-bold transition";
+                fb.className = "text-xs mt-2 font-bold text-emerald-700";
+                fb.innerText = "✓ Chính xác! Bạn đã nắm vững quy định của Ban Tổ chức.";
+            } else {
+                btnEl.className = "px-3 py-1.5 rounded-xl border-2 border-red-500 bg-red-50 text-red-700 text-xs font-bold transition";
+                fb.className = "text-xs mt-2 font-bold text-red-600";
+                fb.innerText = "✗ Chưa chính xác, hãy xem lại quy định và chọn phương án còn lại.";
+            }
+
+            const totalCorrect = Object.values(quizState).filter(Boolean).length;
+            document.getElementById('quiz-score').innerText = `Hoàn thành: ${totalCorrect}/3`;
+        }
+
+        // 7. ĐỒNG HỒ BẤM GIỜ 60 PHÚT CHỐNG TRÔI GIÂY & CÓ ÂM BÁO (KHẮC PHỤC LỖI #5.2)
+        let secondsLeft = 60 * 60;
+        let endTimeMs = null;
+        let timerId = null;
+        let running = false;
+        const triggeredAlerts = { m45: false, m15: false, m5: false, m0: false };
+
+        function playBeep(freq = 880, duration = 0.25, count = 1) {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const ctx = new AudioCtx();
+                for (let i = 0; i < count; i++) {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.value = freq;
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    const start = ctx.currentTime + i * (duration + 0.12);
+                    gain.gain.setValueAtTime(0.25, start);
+                    gain.gain.exponentialRampToValueAtTime(0.001, start + duration);
+                    osc.start(start);
+                    osc.stop(start + duration);
+                }
+            } catch (e) {}
+        }
+
+        function updatePhaseUI() {
+            const phaseEl = document.getElementById('timer-phase');
+            const displayEl = document.getElementById('timer-display');
+            const c1 = document.getElementById('stage-card-1');
+            const c2 = document.getElementById('stage-card-2');
+            const c3 = document.getElementById('stage-card-3');
+
+            c1.classList.remove('ring-4', 'ring-blue-400');
+            c2.classList.remove('ring-4', 'ring-amber-400');
+            c3.classList.remove('ring-4', 'ring-emerald-400');
+
+            if (!running && secondsLeft === 3600) {
+                phaseEl.innerText = "Sẵn sàng bấm giờ chế tạo (60 phút)";
+                phaseEl.className = "text-xs sm:text-sm font-mono text-blue-300 mt-3 uppercase tracking-widest font-bold";
+                displayEl.className = "font-mono text-6xl sm:text-8xl font-black tracking-wider text-amber-400";
+                return;
+            }
+
+            if (secondsLeft > 45 * 60) {
+                phaseEl.innerText = "⚡ GIAI ĐOẠN 1 (60:00 ➔ 45:00): GIA CÔNG CẤU KIỆN & THU GOM MÙN GỖ";
+                phaseEl.className = "text-xs sm:text-sm font-mono text-sky-300 mt-3 uppercase tracking-wider font-bold";
+                c1.classList.add('ring-4', 'ring-blue-400');
+            } else if (secondsLeft > 15 * 60) {
+                phaseEl.innerText = "🔨 GIAI ĐOẠN 2 (45:00 ➔ 15:00): LẮP GHÉP 02 GIÀN CHỦ ĐỐI XỨNG";
+                phaseEl.className = "text-xs sm:text-sm font-mono text-amber-300 mt-3 uppercase tracking-wider font-bold";
+                c2.classList.add('ring-4', 'ring-amber-400');
+            } else if (secondsLeft > 5 * 60) {
+                phaseEl.innerText = "🚀 GIAI ĐOẠN 3 (15:00 ➔ 00:00): TỔ HỢP KHÔNG GIAN & KIỂM TRA LÒNG CẦU";
+                phaseEl.className = "text-xs sm:text-sm font-mono text-emerald-300 mt-3 uppercase tracking-wider font-bold";
+                c3.classList.add('ring-4', 'ring-emerald-400');
+            } else if (secondsLeft > 0) {
+                phaseEl.innerText = "⚠️ CẢNH BÁO: CÒN DƯỚI 05 PHÚT! KIỂM TRA KÍCH THƯỚC & DỌN VỆ SINH!";
+                phaseEl.className = "text-xs sm:text-sm font-mono text-red-400 mt-3 uppercase tracking-wider font-black animate-pulse";
+                displayEl.className = "font-mono text-6xl sm:text-8xl font-black tracking-wider text-red-400";
+                c3.classList.add('ring-4', 'ring-emerald-400');
+            } else {
+                phaseEl.innerText = "🛑 HẾT GIỜ THI CÔNG! CÁC ĐỘI DỪNG TAY VÀ TẬP KẾT SẢN PHẨM!";
+                phaseEl.className = "text-xs sm:text-sm font-mono text-red-400 mt-3 uppercase tracking-wider font-black";
+                displayEl.className = "font-mono text-6xl sm:text-8xl font-black tracking-wider text-red-500 animate-bounce";
+            }
+        }
+
+        function renderClock() {
+            const m = Math.floor(secondsLeft / 60);
+            const s = secondsLeft % 60;
+            document.getElementById('timer-display').innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            updatePhaseUI();
+        }
+
+        function toggleTimer() {
+            const icon = document.getElementById('icon-play');
+            const txt = document.getElementById('text-play');
+            if (running) {
+                clearInterval(timerId);
+                running = false;
+                icon.className = "fa-solid fa-play";
+                txt.innerText = "Tiếp tục";
+            } else {
+                if (secondsLeft <= 0) secondsLeft = 60 * 60;
+                running = true;
+                endTimeMs = Date.now() + secondsLeft * 1000;
+                icon.className = "fa-solid fa-pause";
+                txt.innerText = "Tạm dừng";
+                playBeep(660, 0.15, 1);
+
+                timerId = setInterval(() => {
+                    const rem = Math.max(0, Math.round((endTimeMs - Date.now()) / 1000));
+                    secondsLeft = rem;
+
+                    if (secondsLeft <= 45 * 60 && !triggeredAlerts.m45) {
+                        triggeredAlerts.m45 = true;
+                        playBeep(784, 0.2, 2);
+                    }
+                    if (secondsLeft <= 15 * 60 && !triggeredAlerts.m15) {
+                        triggeredAlerts.m15 = true;
+                        playBeep(880, 0.25, 2);
+                    }
+                    if (secondsLeft <= 5 * 60 && !triggeredAlerts.m5) {
+                        triggeredAlerts.m5 = true;
+                        playBeep(987, 0.25, 3);
+                    }
+                    if (secondsLeft === 0 && !triggeredAlerts.m0) {
+                        triggeredAlerts.m0 = true;
+                        playBeep(523, 0.4, 4);
+                        clearInterval(timerId);
+                        running = false;
+                        icon.className = "fa-solid fa-play";
+                        txt.innerText = "Bắt đầu lại";
+                    }
+                    renderClock();
+                }, 250);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerId);
+            running = false;
+            secondsLeft = 60 * 60;
+            triggeredAlerts.m45 = false;
+            triggeredAlerts.m15 = false;
+            triggeredAlerts.m5 = false;
+            triggeredAlerts.m0 = false;
+            renderClock();
+            document.getElementById('icon-play').className = "fa-solid fa-play";
+            document.getElementById('text-play').innerText = "Bắt đầu bấm giờ";
+        }
+
+        // Khởi tạo ứng dụng & Render KaTeX khi tải xong
+        window.addEventListener('DOMContentLoaded', () => {
+            goToPage(1);
+            loadTools();
+            checkSpecs();
+            setTimeout(triggerMathRender, 150);
+        });
+        window.addEventListener('load', triggerMathRender);
+    </script>
+</body>
+</html>
